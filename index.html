@@ -782,7 +782,7 @@ function renderContacts(query = "") {
   const filtered = CONTACTS.filter(c => c.show === "Yes" && matchesSearch(c, combinedQuery));
   const groups = [...new Set(filtered.map(c => c.group || "Other Contacts"))];
 
-  document.getElementById("contactCount").textContent = `${filtered.length} contact${filtered.length === 1 ? "" : "s"}`;
+ 
 
   container.innerHTML = groups.map(group => {
     const contacts = filtered.filter(c => (c.group || "Other Contacts") === group);
