@@ -434,9 +434,36 @@
   display:flex;
   justify-content:center;
 }
-#community-map-dashboard .map-inner { position:relative; width:879px; height:704px; transform-origin:top left; }
-#community-map-dashboard .map-inner img { width:879px; height:704px; display:block; }
-#community-map-dashboard .marker { position:absolute; transform:translate(-50%,-50%); width:34px; height:34px; border-radius:999px; border:3px solid transparent; background:rgba(37,99,235,.01); cursor:pointer; }
+#community-map-dashboard .map-inner {
+  position: relative;
+  width: 100%;
+  max-width: 879px;
+  height: auto;
+}
+
+#community-map-dashboard .map-inner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+#community-map-dashboard .marker {
+  position:absolute;
+  transform:translate(-50%,-50%);
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  border:3px solid transparent;
+  background:rgba(37,99,235,.01);
+  cursor:pointer;
+
+  color: white;
+  font-weight: 900;
+  font-size: 18px;
+  text-shadow: 2px 2px 3px black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 #community-map-dashboard .marker:hover,
 #community-map-dashboard .marker.active { background:rgba(37,99,235,.25); border-color:#2563eb; box-shadow:0 0 0 4px rgba(37,99,235,.2); }
 #community-map-dashboard .marker.problem { border-color:rgba(220,38,38,.45); }
