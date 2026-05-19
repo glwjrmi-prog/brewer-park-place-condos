@@ -812,11 +812,18 @@ function renderAnnouncements(query = "") {
 function renderAll() {
   document.getElementById("hoaName").textContent = SETTINGS.hoaName;
   document.getElementById("subtitle").textContent = SETTINGS.subtitle;
-  document.getElementById("lastUpdated").textContent = `Updated ${SETTINGS.lastUpdated}`;
-  document.getElementById("publicNotice").textContent = SETTINGS.publicNotice;
-  document.querySelector("footer a").textContent = SETTINGS.contactEmail;
-  document.querySelector("footer a").href = `mailto:${SETTINGS.contactEmail}`;
+
+  const publicNotice = document.getElementById("publicNotice");
+  if (publicNotice) publicNotice.textContent = SETTINGS.publicNotice;
+
+  const footerLink = document.querySelector("footer a");
+  if (footerLink) {
+    footerLink.textContent = SETTINGS.contactEmail;
+    footerLink.href = `mailto:${SETTINGS.contactEmail}`;
+  }
+
   const q = document.getElementById("searchBox")?.value.trim() || "";
+
   renderAnnouncements(q);
   renderDocuments(q);
   renderContacts(q);
