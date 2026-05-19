@@ -875,7 +875,15 @@ function highlightSearchResults(items) {
     }
   }
 }
-
+function renderList(items){
+  resultList.innerHTML = items.map(r => `
+    <div class="list-item" onclick="selectUnit(${r.unit})">
+      <strong>${esc(r.address)} Brewer Park Circle</strong>
+      <span class="badge">Unit ${r.unit}</span><br>
+      ${esc(r.name)}
+    </div>
+  `).join('');
+}
 search.addEventListener('input',()=>{ const items=filterResidents(search.value); renderList(items); if(items.length===1) renderDetail(items[0]); });
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
 addMarkers(); renderList(residents);
