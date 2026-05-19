@@ -816,7 +816,7 @@ function renderAll() {
   document.getElementById("publicNotice").textContent = SETTINGS.publicNotice;
   document.querySelector("footer a").textContent = SETTINGS.contactEmail;
   document.querySelector("footer a").href = `mailto:${SETTINGS.contactEmail}`;
-  const q = document.getElementById("searchBox").value.trim();
+  const q = document.getElementById("searchBox")?.value.trim() || "";
   renderAnnouncements(q);
   renderDocuments(q);
   renderContacts(q);
