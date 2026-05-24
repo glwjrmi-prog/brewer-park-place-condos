@@ -965,12 +965,13 @@ const mapInner=document.getElementById('mapInner'); const detail=document.getEle
 function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function phoneLink(phone){ if(!phone) return '<span class="note">Missing</span>'; const digits=phone.replace(/\D/g,''); if(digits.length!==10) return `<span class="note">${esc(phone)} — check number</span>`; return `<a href="tel:${digits}">${esc(phone)}</a>`; }
 function renderDetail(r){ document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); const marker=document.querySelector(`.marker[data-unit="${r.unit}"]`); if(marker) marker.classList.add('active'); detail.innerHTML=`<h2>${esc(r.name)}</h2><div class="sub">Unit ${r.unit} • Street # ${esc(r.address)}</div><div class="info-row"><div class="label">Primary Phone</div><div class="value phone">${phoneLink(r.phone1)}</div></div><div class="info-row">
-  <div class="label">Email</div>
+  
+</div><div class="info-row"><div class="label">Secondary Phone</div><div class="value phone">${r.phone2?phoneLink(r.phone2):'—'}</div></div><div class="info-row"><div class="label">Notes</div><div class="value ${r.notes?'note':''}">${esc(r.notes||'No issues flagged')}</div></div>`; }
+<div class="label">Email</div>
   <div class="value phone">
     ${r.email ? `<a href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : '—'}
   </div>
-</div><div class="info-row"><div class="label">Secondary Phone</div><div class="value phone">${r.phone2?phoneLink(r.phone2):'—'}</div></div><div class="info-row"><div class="label">Notes</div><div class="value ${r.notes?'note':''}">${esc(r.notes||'No issues flagged')}</div></div>`; }
-function addMarkers(){ 
+    function addMarkers(){ 
   residents.forEach(r=>{ 
     const m=document.createElement('button'); 
     m.className='marker'+(r.notes?' problem':''); 
