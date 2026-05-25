@@ -388,9 +388,694 @@
       .section-note { margin-top: 4px; }
       .contact-tools { grid-template-columns: 1fr; }
     }
+  
+    /* Embedded Community Map Dashboard */
+
+#community-map-dashboard {
+  background:#f4f6f8;
+  color:#1f2937;
+  border-radius:22px;
+  overflow:visible;
+  padding-top:6px;
+}
+#community-map-dashboard * { box-sizing:border-box; }
+#community-map-dashboard .app {
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:18px;
+  padding:18px;
+  max-width:1400px;
+  margin:0 auto;
+}
+#community-map-dashboard .panel { background:#fff; border:1px solid #d1d5db; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.08); overflow:hidden; }
+#community-map-dashboard .toolbar {
+  padding:10px 14px;
+  display:flex;
+  gap:10px;
+  border-bottom:1px solid #d1d5db;
+  align-items:center;
+  height:auto;
+  background:#ffffff;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+#community-map-dashboard input {
+  width:100%;
+  font-size:16px;
+  padding:10px 12px;
+  height:42px;
+  border:1px solid #d1d5db;
+  border-radius:12px;
+}
+#community-map-dashboard button {
+  font-size:16px;
+  height:42px;
+  padding:0 14px;
+  border:0;
+  border-radius:12px;
+  background:#2563eb;
+  color:#fff;
+  cursor:pointer;
+}
+#community-map-dashboard button:hover { background:#1d4ed8; }
+#community-map-dashboard .map-wrap {
+  position:relative;
+  width:100%;
+  overflow:auto;
+  background:#e5e7eb;
+  display:flex;
+  justify-content:center;
+}
+#community-map-dashboard .map-inner {
+  position: relative;
+  display: inline-block;
+}
+
+#community-map-dashboard .map-inner img {
+  display: block;
+  max-width: none;
+}
+    
+#community-map-dashboard .marker {
+  position: absolute;
+  transform: translate(-50%,-50%);
+  
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+
+  color: white;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 1;
+
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0 0 6px #000;
+
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 28px;
+  min-height: 28px;
+}
+#community-map-dashboard .marker:hover,
+#community-map-dashboard .marker.active { background:rgba(37,99,235,.25); border-color:#2563eb; box-shadow:0 0 0 4px rgba(37,99,235,.2); }
+#community-map-dashboard .marker.problem { border-color:rgba(220,38,38,.45); }
+#community-map-dashboard .detail { padding:20px; }
+#community-map-dashboard .detail h2 { font-size:30px; margin:0 0 4px; }
+#community-map-dashboard .sub { font-size:18px; color:#6b7280; margin-bottom:18px; }
+#community-map-dashboard .info-row { border-top:1px solid #d1d5db; padding:14px 0; }
+#community-map-dashboard .label { font-size:14px; color:#6b7280; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
+#community-map-dashboard .value { font-size:22px; font-weight:700; }
+#community-map-dashboard .phone a { color:#2563eb; text-decoration:none; }
+#community-map-dashboard .note { color:#dc2626; font-weight:700; }
+#community-map-dashboard .list { max-height:420px; overflow:auto; border-top:1px solid #d1d5db; }
+#community-map-dashboard .list-item { padding:12px 16px; border-bottom:1px solid #d1d5db; cursor:pointer; }
+#community-map-dashboard .list-item:hover { background:#eff6ff; }
+#community-map-dashboard .badge { display:inline-block; font-size:13px; padding:4px 8px; border-radius:999px; background:#e5e7eb; margin-left:6px; }
+#community-map-dashboard .badge.warn { color:#991b1b; background:#fee2e2; }
+#community-map-dashboard .footer-note { padding:12px 16px; color:#6b7280; font-size:14px; border-top:1px solid #d1d5db; }
+@media(max-width:950px) {
+  #community-map-dashboard .app { grid-template-columns:1fr; }
+  #community-map-dashboard .map-wrap { max-height:70vh; }
+}
+
+  
+#community-map-dashboard .marker.search-match {
+  background:rgba(220,38,38,.32);
+  border-color:#dc2626;
+  box-shadow:0 0 0 6px rgba(220,38,38,.22);
+}
+
   </style>
 </head>
+<body>
+<header>
+  <div class="hero">
+    <div>
+      <span class="brand-kicker">Community Hub</span>
+      <h1 id="hoaName">Brewer Park Place Condos</h1>
+      <p id="subtitle">Documents, contacts, announcements, and resident resources in one clean place.</p>
+    </div>
+    
+  </div>
+</header>
+
+<main>
+  
+
+  <nav aria-label="Main sections">
+    <a href="#pay-dues">Pay Dues</a>
+    <a href="#announcements">Announcements</a>
+    <a href="#documents">Documents</a>
+    <a href="#contacts">Contacts</a>
+    <a href="#community-map">Community Map</a>
+    <a href="#community-rules">Community Rules</a>
+  </nav>
+
+ <section id="announcements">
+  <div class="section-title">
+    <h2>Announcements</h2>
+    <p class="section-note">Current community updates</p>
+  </div>
+  <ul id="announcementGrid" class="announcement-list"></ul>
+</section>
+
+
+ <section id="bylaws">
+  <div class="section-title">
+    <h2>Bylaws</h2>
+    <p class="section-note">Official community bylaws</p>
+  </div>
+
+  <div class="card">
+  <h3>Brewer Park Place Condos Bylaws</h3>
+  <p>View the bylaws directly below or download a copy.</p>
+
+  <p>
+    <a class="button-link" href="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/view?usp=sharing" target="_blank">
+      Download Bylaws
+    </a>
+  </p>
+
+  <iframe
+      src="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/preview"
+      width="100%" 
+      height="600px" 
+      style="border:1px solid #ccc; border-radius:12px;">
+    </iframe>
+  </div>
+</section>
+  <section id="community-rules">
+  <div class="section-title">
+    <h2>Community Rules</h2>
+    <p class="section-note">Searchable rules and regulations</p>
+  </div>
+
+  <div class="card">
+
+    <input
+      id="rulesSearch"
+      type="search"
+      placeholder="Search rules: parking, pets, decorations, fire pits..."
+      style="width:100%; padding:14px; font-size:18px; border:1px solid #d9e2ea; border-radius:12px; margin-bottom:20px;"
+    >
+
+    <p>
+      <a class="button-link"
+         href="https://drive.google.com/file/d/1xYm-x0zJaUz3wFuI6spm7TD19qVD8xUI/view?usp=sharing"
+         target="_blank">
+         Click here for complete Rules & Regulations
+      </a>
+    </p>
+
+    <div class="rules-section">
+      <h3 class="rules-title">General</h3>
+      <div class="rules-content">
+        <p>No yard sales, garage sales, rummage or estate sales, or auctions are permitted.</p>
+        <p>Co-owners selling units must notify the Board and provide realtor information.</p>
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <h3 class="rules-title">Exterior of Units and Common Areas</h3>
+      <div class="rules-content">
+        <p>No more than three security cameras may be attached to a unit.</p>
+        <p>Wind chimes are prohibited.</p>
+        <p>Trash containers must remain in garages except on trash day.</p>
+        <p>Propane fire tables are allowed if compliant with fire codes.</p>
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <h3 class="rules-title">Parking</h3>
+      <div class="rules-content">
+        <p>Guests should use driveways or guest parking lots.</p>
+        <p>No parking on sidewalks or grass.</p>
+        <p>Garage doors should remain closed except during active use.</p>
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <h3 class="rules-title">Pets</h3>
+      <div class="rules-content">
+        <p>Pets must be leashed and under control outdoors.</p>
+        <p>Residents must immediately clean up after pets.</p>
+        <p>Pet owners must complete pet registration.</p>
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <h3 class="rules-title">Violations and Fines</h3>
+      <div class="rules-content">
+        <p>The Board may levy fines for violations.</p>
+        <p>$100 fines may apply after 30 days.</p>
+        <p>$500 fines may apply after 60 days or repeated violations.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+  <section id="pay-dues">
+  <div class="section-title">
+    <h2>Pay HOA Dues</h2>
+    <p class="section-note">Convenient payment options</p>
+  </div>
+
+  <div class="card">
+
+    
+<h3>Zelle</h3>
+<p>To pay HOA dues by Zelle, open your banking app and send payment to:</p>
+<p><strong>treasurer@bppcondos.org</strong></p>
+<p>Please include your street address or unit number in the memo.</p>
+<p>You may also scan the HOA Zelle QR code below using your bank app.</p>
+    <p>
+      Please include your unit number or street address in the memo field.
+    </p>
+
+    <hr style="margin:24px 0;">
+
+    <h3>Bank Bill Pay</h3>
+
+    <p>
+      Residents may also use their bank’s online bill pay service.
+    </p>
+
+    <p>
+      Make checks payable to:
+      <strong>Brewer Park Place Condominium Association</strong>
+    </p>
+
+    <p>
+      Mailing address:<br>
+      YOUR HOA MAILING ADDRESS HERE
+    </p>
+
+  </div>
+</section>
+  <section id="documents">
+  <div class="section-title">
+    <h2>Documents</h2>
+    <p class="section-note">Rules, forms, budgets, and meeting records</p>
+  </div>
+
+  <div id="documentGrid" class="grid"></div>
+</section>
+ <section id="meeting-minutes">
+  <div class="section-title">
+    <h2>Board Meeting Minutes</h2>
+    <p class="section-note">Monthly meeting records</p>
+  </div>
+
+  <div class="card">
+    <ul class="announcement-list">
+
+      <li>
+        <a href="https://drive.google.com/file/d/1KUnZX_1uBzK_K31FCvzOLIOJaQi0rBA9/view?usp=sharing" target="_blank">
+          March 2026 Board Meeting Minutes
+        </a>
+      </li>
+      
+      <li>
+        <a href="https://drive.google.com/file/d/18lxhR6MXRfJQtGwbCtFrB0yf-QX0rPBX/view?usp=sharing" target="_blank">
+          April 2026 Board Meeting Minutes
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+</section>
+  <section id="contacts">
+  <div class="section-title">
+    <h2>Contacts</h2>
+    <p class="section-note">CONTACTS UPDATED: phone numbers are now clickable</p>
+  </div>
+    <span id="contactCount" style="display:none;"></span>
+    <div id="contactGroups"></div>
+  </section>
+
+
+  <section id="community-map">
+    <div class="section-title">
+      <h2>Community Map</h2>
+      <p class="section-note">Click a unit to view resident details</p>
+    </div>
+    <div id="community-map-dashboard">
+<div class="app">
+<section class="panel">
+<div class="toolbar"><input id="search" placeholder="Search by name, unit, or street number..." autocomplete="off"><button onclick="clearSearch()">Clear</button></div>
+<div class="map-wrap" id="mapWrap">
+  <div class="map-inner" id="mapInner">
+    <img src="bpp-map.jpg" alt="Brewer Park Place community map">
+    </div>
+</div>
+</section>
+<aside class="panel"><div class="detail" id="detail"><h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div></div><div class="list" id="resultList"></div><div class="footer-note">Missing or invalid phone numbers are flagged in red.</div></aside>
+</div>
+    </div>
+  </section>
+
+  
+     
+</main>
+
+<footer>
+  <div id="publicNotice">Starter template for Brewer Park Place Condos. Replace sample documents and contacts before publishing.</div>
+  <div>Primary contact: <a "email": "property@bppcondos.org"">property@bppcondos.org</a></div>
+</footer>
+
+<script>
+const SETTINGS = {
+  hoaName: "Brewer Park Place Condos",
+  subtitle: "Documents, contacts, announcements, and resident resources in one clean place.",
+  lastUpdated: "2026-05-02",
+  contactEmail: "property@bppcondos.org",
+  publicNotice: "Starter template for Brewer Park Place Condos. Replace sample documents and contacts before publishing."
+};
+
+const DOCUMENTS = [
+  
+
  
+
+  { 
+    name: "Annual Budget 2026", 
+    category: "Financial", 
+    audience: "Residents Only", 
+    updated: "2026-05-02", 
+    link: "https://drive.google.com/file/d/1ZIRPE_TGtmkLj8n0_ZEUg6X4uCacnTys/view?usp=sharing", 
+    notes: "2025–2026 approved HOA budget.", 
+    status: "Active" 
+  },
+
+  { name: "Maintenance Matrix", category: "Forms", audience: "Public", updated: "2026-05-02", link: "https://drive.google.com/file/d/1VrUpWDKYLiDDei8XcdGsJxpOVdybXTXp/view?usp=sharing", notes: "Use to determine owner or HOA responsibility for maintenance.", status: "Active" }
+  ];
+
+ 
+
+const CONTACTS = [
+  {
+    "group": "Board Members",
+    "type": "board",
+    "role": "HOA Board President",
+    "name": "Bill Brooks",
+    "phone": "616-822-0024",
+    "email": "president@bppcondos.org",
+    "notes": "Primary board contact",
+    "show": "Yes"
+  },
+  {
+    "group": "Board Members",
+    "type": "board",
+    "role": "Treasurer",
+    "name": "Becky Bailey",
+    "phone": "616-540-9716",
+    "email": "treasurer@bppcondos.org",
+    "notes": "Budget and dues questions",
+    "show": "Yes"
+  },
+  {
+    "group": "Management / Maintenance",
+    "type": "management",
+    "role": "Property Manager",
+    "name": "Jennifer Brooks",
+    "phone": "616-291-4681",
+    "email": "property@bppcondos.org",
+    "notes": "Maintenance and compliance",
+    "show": "Yes"
+  },
+  {
+    "group": "Management / Maintenance",
+    "type": "management",
+    "role": "Building Maintenance",
+    "name": "Kent Schantz",
+    "phone": "616-550-9880",
+    "email": "building@bppcondos.org",
+    "notes": "Exterior change requests",
+    "show": "Yes"
+  },
+  
+  {
+    "group": "Board Members",
+    "type": "board",
+    "role": "Secretary",
+    "name": "Julie Cogswell",
+    "phone": "616-706-5975",
+    "email": "secretary@bppcondos.org",
+    "notes": "Urgent common-area issues only",
+    "show": "Yes"
+  }
+];
+
+const ANNOUNCEMENTS = [
+  {
+    "message": "Trash Pick up day is Wednesdays, unless there is a holiday. Recycling is available, please contact Becky Bailey at treasurer@bppcondos.org for more information.",
+    "show": "Yes"
+  },
+  {
+    "message": "Follow parking rules and use designated spaces only",
+    "show": "Yes"
+  },
+  {
+    "message": "Keep common areas clean and free of personal belongings",
+    "show": "Yes"
+  },
+  {
+    "message": "Follow pet policies (leash requirements, waste cleanup, etc.)",
+    "show": "Yes"
+  },
+  {
+    "message": "Dues and water (if applicable) invoices are emailed quarterly in January, April, July and October. Payments can be placed in the black box located on the mail box bank near 49 Brewer Park Circle",
+    "show": "Yes"
+  }
+];
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
+}
+
+function matchesSearch(obj, query) {
+  if (!query) return true;
+  return Object.values(obj).join(" ").toLowerCase().includes(query.toLowerCase());
+}
+
+function renderDocuments(query = "") {
+  const grid = document.getElementById("documentGrid");
+  grid.innerHTML = DOCUMENTS.filter(d => d.status !== "Archived" && matchesSearch(d, query)).map(d => `
+    <article class="card searchable">
+      <h3>${escapeHTML(d.name)}</h3>
+      <div class="meta">${escapeHTML(d.category)} • ${escapeHTML(d.audience)} • Updated ${escapeHTML(d.updated)}</div>
+      <p>${escapeHTML(d.notes)}</p>
+      <p><a class="button-link" href="${escapeHTML(d.link)}" target="_blank" rel="noopener">Open document</a></p>
+    </article>
+  `).join("") || `<p>No matching documents found.</p>`;
+}
+
+function phoneHref(phone) {
+  return String(phone || "").replace(/[^+\d]/g, "");
+}
+
+function contactCard(c) {
+  const phone = phoneHref(c.phone);
+  const isEmergency = String(c.type).toLowerCase() === "emergency";
+  return `
+    <article class="card contact-card ${escapeHTML(c.type || "")} searchable">
+      <div class="contact-name">${escapeHTML(c.name)}</div>
+      <div class="contact-role">${escapeHTML(c.role)}</div>
+      <div class="contact-actions">
+        ${c.phone ? `<a class="contact-button ${isEmergency ? "emergency" : ""}" href="tel:${escapeHTML(phone)}">📞 Call ${escapeHTML(c.phone)}</a>` : ""}
+        ${c.email ? `<a class="contact-button" href="mailto:${escapeHTML(c.email)}?subject=Brewer%20Park%20Place%20Condos%20Question">✉️ Email</a>` : ""}
+      </div>
+      ${c.email ? `<div class="meta">${escapeHTML(c.email)}</div>` : ""}
+      ${c.notes ? `<div class="contact-note">${escapeHTML(c.notes)}</div>` : ""}
+      ${isEmergency ? `<div class="private-note">For emergencies involving immediate safety, call 911 first. Use this contact for urgent common-area or after-hours property issues.</div>` : ""}
+    </article>
+  `;
+}
+
+function renderContacts(query = "") {
+  const container = document.getElementById("contactGroups");
+  const contactOnlyQuery = document.getElementById("contactSearchBox")?.value.trim() || "";
+  const combinedQuery = [query, contactOnlyQuery].filter(Boolean).join(" ");
+  const filtered = CONTACTS.filter(c => c.show === "Yes" && matchesSearch(c, combinedQuery));
+  const groups = [...new Set(filtered.map(c => c.group || "Other Contacts"))];
+
+ 
+
+  container.innerHTML = groups.map(group => {
+    const contacts = filtered.filter(c => (c.group || "Other Contacts") === group);
+    return `
+      <div class="contact-group">
+        <h3 class="contact-group-title">${escapeHTML(group)}</h3>
+        <div class="grid">${contacts.map(contactCard).join("")}</div>
+      </div>
+    `;
+  }).join("") || `<p>No matching contacts found.</p>`;
+}
+
+function renderAnnouncements(query = "") {
+  const list = document.getElementById("announcementGrid");
+  const items = ANNOUNCEMENTS.filter(a => (a.show ?? "Yes") === "Yes" && matchesSearch(a, query));
+  list.innerHTML = items.map(a => `
+    <li class="searchable">${escapeHTML(a.message || a.title || "")}</li>
+  `).join("") || `<li>No matching announcements found.</li>`;
+}
+
+function renderAll() {
+  document.getElementById("hoaName").textContent = SETTINGS.hoaName;
+  document.getElementById("subtitle").textContent = SETTINGS.subtitle;
+
+  const publicNotice = document.getElementById("publicNotice");
+  if (publicNotice) publicNotice.textContent = SETTINGS.publicNotice;
+
+  const footerLink = document.querySelector("footer a");
+  if (footerLink) {
+    footerLink.textContent = SETTINGS.contactEmail;
+    footerLink.href = `mailto:${SETTINGS.contactEmail}`;
+  }
+
+  const q = document.getElementById("searchBox")?.value.trim() || "";
+
+  renderAnnouncements(q);
+  renderDocuments(q);
+  renderContacts(q);
+}
+
+
+
+renderAll();
+</script>
+
+<script>
+/* Embedded Community Map Dashboard Script */
+const residents = [{"unit": 1, "address": 22, "last": "DeHaan", "first": "Fred", "second": "Ruth", "name": "Fred & Ruth DeHaan", "phone1": "616-329-7608", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 120, "y": 500}, {"unit": 2, "address": 26, "last": "Taggart", "first": "James", "second": "", "name": "James Taggart", "phone1": "773-941-1517", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 150, "y": 520}, {"unit": 3, "address": 30, "last": "Westveer", "first": "Joan", "second": "Bill", "name": "Joan & Bill Westveer", "phone1": "616-550-6110", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 200, "y": 500}, {"unit": 4, "address": 31, "last": "Spielberger", "first": "Regina", "second": "", "name": "Regina Spielberger", "phone1": "", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 240, "y": 420}, {"unit": 5, "address": 34, "last": "Osborne", "first": "Jim", "second": "", "name": "Jim Osborne", "phone1": "616-780-0070", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 215, "y": 520}, {"unit": 6, "address": 35, "last": "Edgell", "first": "Nancy", "second": "", "name": "Nancy Edgell", "phone1": "616-805-3039", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 260, "y": 400}, {"unit": 7, "address": 38, "last": "Gunnink", "first": "Arvin", "second": "Gerda", "name": "Arvin & Gerda Gunnink", "phone1": "616-581-7998", "email1": "", "phone2": "616-540-8878", "email2": "", "notes": "", "x": 240, "y": 500}, {"unit": 8, "address": 39, "last": "VanWyk", "first": "Carol", "second": "William", "name": "Carol & William VanWyk", "phone1": "616-516-5546", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 280, "y": 420}, {"unit": 9, "address": 42, "last": "VanStempvoort", "first": "Phil", "second": "Mary", "name": "Phil & Mary VanStempvoort", "phone1": "616-490-1942", "email1": "", "phone2": "616-490-1941", "email2": "", "notes": "", "x": 285, "y": 500}, {"unit": 10, "address": 46, "last": "Danenberg", "first": "Nate", "second": "", "name": "Nate Danenberg", "phone1": "616-808-1246", "email1": "", "phone2": "616-808-9310", "email2": "", "notes": "", "x": 315, "y": 520}, {"unit": 11, "address": 47, "last": "Stolt", "first": "John", "second": "", "name": "John Stolt", "phone1": "616-308-3454", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 345, "y": 420}, {"unit": 12, "address": 49, "last": "Elliott", "first": "Jim", "second": "Judy", "name": "Jim & Judy Elliott", "phone1": "815-263-8319", "email1": "", "phone2": "616-427-3930", "email2": "", "notes": "", "x": 380, "y": 420}, {"unit": 13, "address": 50, "last": "Crooks", "first": "Eric", "second": "", "name": "Eric Crooks", "phone1": "616-667-9778", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 360, "y": 500}, {"unit": 14, "address": 54, "last": "Buist", "first": "Cal", "second": "Mary", "name": "Cal & Mary Buist", "phone1": "616-780-4231", "email1": "", "phone2": "616-780-4551", "email2": "", "notes": "", "x": 390, "y": 520}, {"unit": 15, "address": 55, "last": "Wood", "first": "Greg", "second": "Shelby", "name": "Greg & Shelby Wood", "phone1": "616-221-1239", "email1": "", "phone2": "616-777-0290", "email2": "", "notes": "", "x": 420, "y": 420}, {"unit": 16, "address": 57, "last": "VanNest", "first": "Loretta", "second": "", "name": "Loretta VanNest", "phone1": "616-538-9554", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 450, "y": 400}, {"unit": 17, "address": 58, "last": "Stressman", "first": "Barb", "second": "", "name": "Barb Stressman", "phone1": "616-893-8091", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 420, "y": 500}, {"unit": 18, "address": 59, "last": "Talsma", "first": "Jan", "second": "Jan", "name": "Jan Talsma", "phone1": "616-350-7124", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 470, "y": 425}, {"unit": 19, "address": 62, "last": "Downing", "first": "Sharon", "second": "", "name": "Sharon Downing", "phone1": "616-443-3206", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 450, "y": 520}, {"unit": 20, "address": 66, "last": "Bradley", "first": "Joe", "second": "Lisa", "name": "Joe & Lisa Bradley", "phone1": "616-723-3010", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 490, "y": 500}, {"unit": 21, "address": 70, "last": "Scott", "first": "Dave", "second": "Judy", "name": "Dave & Judy Scott", "phone1": "616-455-7229", "email1": "", "phone2": "616-260-1595", "email2": "", "notes": "", "x": 590, "y": 465}, {"unit": 22, "address": 74, "last": "Verburg", "first": "Robin", "second": "", "name": "Robin Verburg", "phone1": "616-690-0501", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 610, "y": 440}, {"unit": 23, "address": 78, "last": "Wheeler", "first": "Gordy", "second": "Tina", "name": "Gordy & Tina Wheeler", "phone1": "616-970-4283","email1": "glwjr@duck.com","phone2": "616-970-0961","email2": "wheels1031@duck.com", "notes": "GR natives, lived in Ft Worth from 2014-2026.", "x": 590, "y": 415}, {"unit": 24, "address": 82, "last": "Johnson", "first": "Greg", "second": "Kelli", "name": "Greg & Kelli Johnson", "phone1": "586-280-5832", "email1": "", "phone2": "586-419-3543", "email2": "", "notes": "", "x": 615, "y": 355}, {"unit": 25, "address": 86, "last": "Marsh", "first": "Kindra", "second": "", "name": "Kindra Marsh", "phone1": "616-291-999", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 625, "y": 330}, {"unit": 26, "address": 90, "last": "Schantz", "first": "Kent", "second": "Dawn", "name": "Kent & Dawn Schantz", "phone1": "616-550-9880", "email1": "", "phone2": "", "email2": "", "notes": "", "x":600, "y": 300}, {"unit": 27, "address": 94, "last": "Morrison", "first": "Gene", "second": "Gloria", "name": "Gene & Gloria Morrison", "phone1": "616-819-9126", "email1": "", "phone2": "616-308-8685", "email2": "", "notes": "", "x": 525, "y": 315}, {"unit": 28, "address": 98, "last": "Brunink", "first": "Jan", "second": "", "name": "Jan Brunink", "phone1": "616-649-3900", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 500, "y": 280}, {"unit": 29, "address": 101, "last": "Keller", "first": "Kimm", "second": "", "name": "Kimm Keller", "phone1": "616-558-2757", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 395, "y": 340}, {"unit": 30, "address": 102, "last": "Brooks", "first": "Bill", "second": "Jennifer", "name": "Bill & Jennifer Brooks", "phone1": "616-822-0024", "email1": "president@bppcondos.org", "phone2": "616-291-4681", "email2": "property@bppcondos.org", "notes": "", "x": 480, "y": 260}, {"unit": 31, "address": 103, "last": "Charles", "first": "Sue", "second": "Mike", "name": "Sue & Mike Charles", "phone1": "616-450-9787", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 385, "y": 315}, {"unit": 32, "address": 105, "last": "Schwandt", "first": "James", "second": "Yvonne", "name": "James & Yvonne Schwandt", "phone1": "616-805-3832", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 375, "y": 290}, {"unit": 33, "address": 106, "last": "Erskine", "first": "Harold", "second": "Marlyn", "name": "Harold & Marlyn Erskine", "phone1": "269-214-9455", "email1": "", "phone2": "616-836-9455", "email2": "", "notes": "", "x": 445, "y": 220}, {"unit": 34, "address": 110, "last": "Dougherty", "first": "Mike", "second": "Shawn", "name": "Mike & Shawn Dougherty", "phone1": "616-890-9118", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 435., "y": 165}, {"unit": 35, "address": 111, "last": "Hilaski", "first": "Laura", "second": "", "name": "Laura Hilaski", "phone1": "616-540-7215", "email1": "", "phone2": "616-532-4558", "email2": "", "notes": "", "x": 350, "y": 245}, {"unit": 36, "address": 114, "last": "Lindsay", "first": "Kim", "second": "", "name": "Kim Lindsay", "phone1": "810-252-8286", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 435, "y": 135}, {"unit": 37, "address": 115, "last": "Ball", "first": "Morris", "second": "Ruth", "name": "Morris & Ruth Ball", "phone1": "616-719-2460", "email1": "", "phone2": "616-330-9463", "email2": "", "notes": "", "x": 310, "y": 225}, {"unit": 38, "address": 118, "last": "Gann", "first": "Jody", "second": "Roy", "name": "Jody & Roy Gann", "phone1": "616-994-2859", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 440, "y": 75}, {"unit": 39, "address": 122, "last": "Kozak", "first": "Dawn", "second": "", "name": "Dawn Kozak", "phone1": "", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 390, "y": 50}, {"unit": 40, "address": 126, "last": "Terpstra", "first": "Jerry", "second": "Barb Moerdyke", "name": "Jerry Terpstra & Barb Moerdyke", "phone1": "616-443-6547", "email1": "", "phone2": "616-258-8828", "email2": "", "notes": "", "x": 350, "y": 75}, {"unit": 41, "address": 130, "last": "Marlowe", "first": "Gloria", "second": "Patrick", "name": "Gloria & Patrick Marlowe", "phone1": "616-443-6362", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 310, "y": 50}, {"unit": 42, "address": 134, "last": "Bailey", "first": "Robert", "second": "Becky", "name": "Robert & Becky Bailey", "phone1": "616-540-1361", "email1": "", "phone2": "616-540-9716", "email2": "treasurer@bppcondos.org", "notes": "", "x": 280, "y": 135}, {"unit": 43, "address": 138, "last": "VanTil", "first": "Brian", "second": "Betty", "name": "Brian & Betty VanTil", "phone1": "616-257-0513", "email1": "", "phone2": "616-309-4850", "email2": "", "notes": "", "x": 255, "y": 110}, {"unit": 44, "address": 139, "last": "Spanstra", "first": "Victor", "second": "Janice", "name": "Victor & Janice Spanstra", "phone1": "616-822-4542", "email1": "", "phone2": "616-550-0979", "email2": "", "notes": "", "x": 255, "y": 245}, {"unit": 45, "address": 141, "last": "McAdams", "first": "Keith", "second": "", "name": "Keith McAdams", "phone1": "616-648-7254", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 220, "y": 225}, {"unit": 46, "address": 142, "last": "Cleveland", "first": "Laura", "second": "Darcy", "name": "Laura & Darcy Cleveland", "phone1": "616-540-4354", "email1": "", "phone2": "718-839-5192", "email2": "", "notes": "", "x": 225, "y": 135}, {"unit": 47, "address": 146, "last": "Spicer", "first": "Marlene", "second": "", "name": "Marlene Spicer", "phone1": "616-283-0929", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 200, "y": 110}, {"unit": 48, "address": 150, "last": "DeWaal", "first": "Jon", "second": "Sharon", "name": "Jon & Sharon DeWaal", "phone1": "404-764-8960", "email1": "", "phone2": "404-764-8973", "email2": "", "notes": "", "x": 150, "y": 135}, {"unit": 49, "address": 154, "last": "Gardner", "first": "Scott", "second": "Sue", "name": "Scott & Sue Gardner", "phone1": "616-308-6090", "email1": "", "phone2": "616-550-0104", "email2": "", "notes": "", "x": 125, "y": 110}, {"unit": 50, "address": 158, "last": "Walker", "first": "Patty", "second": "", "name": "Patty Walker", "phone1": "616-337-0269", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 85, "y": 155}, {"unit": 51, "address": 162, "last": "Jansen", "first": "Nathan", "second": "Sue", "name": "Nathan & Sue Jansen", "phone1": "616-862-4007", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90, "y": 190}, {"unit": 52, "address": 166, "last": "Young", "first": "Stacy", "second": "", "name": "Stacy Young", "phone1": "", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90, "y": 225}, {"unit": 53, "address": 170, "last": "Wilfong", "first": "Elizabeth", "second": "", "name": "Elizabeth Wilfong", "phone1": "989-860-8312", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90, "y": 245}, {"unit": 54, "address": 174, "last": "Harpst", "first": "Dale", "second": "Lynne", "name": "Dale & Lynne Harpst", "phone1": "616-723-3795", "email1": "", "phone2": "616-706-7918", "email2": "", "notes": "", "x": 90.00, "y": 265}, {"unit": 55, "address": 175, "last": "Lobdell", "first": "Larry", "second": "Lin", "name": "Larry & Lin Lobdell", "phone1": "616-648-6987", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 170.68, "y": 280}, {"unit": 56, "address": 177, "last": "Klooster", "first": "Mike", "second": "Denise", "name": "Mike & Denise Klooster", "phone1": "616-550-7105", "email1": "", "phone2": "616-550-6480", "email2": "", "notes": "", "x": 170.68, "y": 308}, {"unit": 57, "address": 178, "last": "Johnson", "first": "Michael", "second": "", "name": "Michael Johnson", "phone1": "616-717-1119", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90, "y": 310}, {"unit": 58, "address": 182, "last": "Sweet", "first": "Somnuek", "second": "", "name": "Somnuek Sweet", "phone1": "616-819-0521", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90.00, "y": 335}, {"unit": 59, "address": 183, "last": "Ozinga", "first": "Tom", "second": "Phong Hoang", "name": "Tom Ozinga & Phong Hoang", "phone1": "616-259-9449", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 170.68, "y": 360}, {"unit": 60, "address": 185, "last": "Lemke", "first": "Richard", "second": "Christine", "name": "Richard & Christine Lemke", "phone1": "616-862-4898", "email1": "", "phone2": "616-265-5297", "email2": "", "notes": "", "x": 170.68, "y": 387}, {"unit": 61, "address": 186, "last": "Weber", "first": "Vincent", "second": "", "name": "Vincent Weber", "phone1": "616-262-9193", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90.00, "y": 375.5}, {"unit": 62, "address": 190, "last": "Cogswell", "first": "Julie", "second": "", "name": "Julie Cogswell", "phone1": "616-706-5975", "email1": "", "phone2": "", "email2": "secretary@bppcondos.org", "notes": "", "x": 90.00, "y": 400.24}, {"unit": 63, "address": 194, "last": "Nevill", "first": "Deborah", "second": "", "name": "Deborah Nevill", "phone1": "989-599-5356", "email1": "", "phone2": "", "email2": "", "notes": "", "x": 90.00, "y": 425.5}];
+const mapInner=document.getElementById('mapInner'); const detail=document.getElementById('detail'); const search=document.getElementById('search'); const resultList=document.getElementById('resultList');
+function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+function phoneLink(phone){ if(!phone) return '<span class="note">Missing</span>'; const digits=phone.replace(/\D/g,''); if(digits.length!==10) return `<span class="note">${esc(phone)} — check number</span>`; return `<a href="tel:${digits}">${esc(phone)}</a>`; }
+function renderDetail(r){
+  document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match'));
+
+  const marker=document.querySelector(`.marker[data-unit="${r.unit}"]`);
+  if(marker) marker.classList.add('active');
+
+  detail.innerHTML=`
+    <h2>${esc(r.name)}</h2>
+
+    <div class="sub">Unit ${r.unit} • Street # ${esc(r.address)}</div>
+
+    <div class="info-row">
+      <div class="label">Primary Phone</div>
+      <div class="value phone">${phoneLink(r.phone1)}</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Primary Email</div>
+      <div class="value phone">${r.email1 ? `<a href="mailto:${esc(r.email1)}">${esc(r.email1)}</a>` : '—'}</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Secondary Phone</div>
+      <div class="value phone">${r.phone2 ? phoneLink(r.phone2) : '—'}</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Secondary Email</div>
+      <div class="value phone">${r.email2 ? `<a href="mailto:${esc(r.email2)}">${esc(r.email2)}</a>` : '—'}</div>
+    </div>
+
+    <div class="info-row">
+      <div class="label">Notes</div>
+      <div class="value ${r.notes ? 'note' : ''}">${esc(r.notes || 'No issues flagged')}</div>
+    </div>
+  `;
+}
+    function addMarkers(){ 
+  residents.forEach(r=>{ 
+    const m=document.createElement('button'); 
+    m.className='marker'+(r.notes?' problem':''); 
+    m.style.left=r.x+'px'; 
+    m.style.top=r.y+'px'; 
+    m.dataset.unit=r.unit; 
+    m.title=`${r.address} Brewer Park Circle - ${r.name}`; 
+    m.setAttribute('aria-label',`${r.address} Brewer Park Circle, ${r.name}`); 
+    m.textContent = r.address;
+    m.addEventListener('click',()=>renderDetail(r)); 
+    mapInner.appendChild(m); 
+  }); 
+}
+function selectUnit(unit){ const r=residents.find(x=>x.unit===unit); if(r) renderDetail(r); }
+function filterResidents(q){ q=q.trim().toLowerCase(); if(!q) return residents; return residents.filter(r=>String(r.unit).includes(q)||String(r.address).includes(q)||r.name.toLowerCase().includes(q)||r.last.toLowerCase().includes(q)||r.first.toLowerCase().includes(q)||r.second.toLowerCase().includes(q)); }
+
+function highlightSearchResults(items) {
+  document.querySelectorAll('.marker').forEach(m => m.classList.remove('search-match'));
+
+  items.forEach(r => {
+    const marker = document.querySelector(`.marker[data-unit="${r.unit}"]`);
+    if (marker) marker.classList.add('search-match');
+  });
+
+  if (items.length === 1) {
+    renderDetail(items[0]);
+    const marker = document.querySelector(`.marker[data-unit="${items[0].unit}"]`);
+    if (marker) {
+      marker.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+    }
+  }
+}
+function renderList(items){
+  resultList.innerHTML = items.map(r => `
+    <div class="list-item" onclick="selectUnit(${r.unit})">
+      <strong>${esc(r.address)} Brewer Park Circle</strong>
+      <span class="badge">Unit ${r.unit}</span><br>
+      ${esc(r.name)}
+    </div>
+  `).join('');
+}
+search.addEventListener('input',()=>{ const items=filterResidents(search.value); renderList(items); if(items.length===1) renderDetail(items[0]); });
+function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
+addMarkers(); renderList(residents);
+</script>
+<script>
+document.querySelectorAll(".rules-title").forEach(title => {
+  title.addEventListener("click", () => {
+    const content = title.nextElementSibling;
+
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+});
+
+document.getElementById("rulesSearch").addEventListener("input", function () {
+
+  const q = this.value.toLowerCase();
+
+  document.querySelectorAll(".rules-section").forEach(section => {
+
+    const text = section.textContent.toLowerCase();
+
+    section.style.display =
+      text.includes(q) || q === ""
+        ? "block"
+        : "none";
+
+  });
+
+});
 </script>
 </body>
 </html>
