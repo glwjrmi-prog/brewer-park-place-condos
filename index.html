@@ -1045,6 +1045,38 @@ function renderList(items){
 }
 search.addEventListener('input',()=>{ const items=filterResidents(search.value); renderList(items); if(items.length===1) renderDetail(items[0]); });
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
+  async function loadResidentsFromSheet(){
+  const response = await fetch(SHEET_CSV_URL);
+  const csv = await response.text();
+
+  const rows = csv.trim().split("\n").map(row =>
+    row.split(",").map(cell => cell.replace(/^"|"$/g, "").trim())
+  );
+
+  const headers = rows.shift();
+
+  residents = rows.map(row => {
+    const obj = {};
+    headers.forEach((h, i) => obj[h.trim()] = row[i] || "");
+
+    return {
+      unit: Number(obj.Unit),
+      address: obj.Address,
+      name: obj.Name,
+      phone1: obj.Phone1,
+      email1: obj.Email1,
+      phone2: obj.Phone2,
+      email2: obj.Email2,
+      notes: obj.Notes,
+      x: Number(obj.X),
+      y: Number(obj.Y),
+      show: obj.Show
+    };
+  }).filter(r => r.show !== "No");
+
+  addMarkers();
+  renderList(residents);
+}
 loadResidentsFromSheet();
 </script>
 <script>
