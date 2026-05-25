@@ -1092,7 +1092,9 @@ async function loadResidentsFromSheet() {
     console.error("Google Sheet load failed:", err);
   }
 }
-  // loadResidentsFromSheet();
+  addMarkers();
+renderList(residents);
+// loadResidentsFromSheet();
   
 </script>
 <script>
