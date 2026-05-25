@@ -388,40 +388,9 @@
       .section-note { margin-top: 4px; }
       .contact-tools { grid-template-columns: 1fr; }
     }
-  
-   
-
-<script>
-
-<script>
-document.querySelectorAll(".rules-title").forEach(title => {
-  title.addEventListener("click", () => {
-    const content = title.nextElementSibling;
-
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-});
-
-document.getElementById("rulesSearch").addEventListener("input", function () {
-
-  const q = this.value.toLowerCase();
-
-  document.querySelectorAll(".rules-section").forEach(section => {
-
-    const text = section.textContent.toLowerCase();
-
-    section.style.display =
-      text.includes(q) || q === ""
-        ? "block"
-        : "none";
-
-  });
-
-});
+  </style>
+</head>
+ 
 </script>
 </body>
 </html>
