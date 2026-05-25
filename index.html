@@ -1078,27 +1078,47 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnN
 async function updateResidentContactsFromSheet() {
   try {
 
-    const response = await fetch(
-      SHEET_CSV_URL + "&cachebust=" + Date.now()
-    );
-
+    async function updateResidentContactsFromSheet() {
+  try {
+    const response = await fetch(SHEET_CSV_URL + "&cachebust=" + Date.now());
     const csv = await response.text();
 
     const rows = csv.trim().split("\n").map(r =>
-      r.split(",").map(c =>
-        c.replace(/^"|"$/g, "").trim()
-      )
+      r.split(",").map(c => c.replace(/^"|"$/g, "").trim())
     );
 
     const headers = rows.shift();
 
     rows.forEach(row => {
-
       const obj = {};
+      headers.forEach((h, i) => obj[h.trim()] = row[i] || "");
 
-      headers.forEach((h, i) => {
-        obj[h] = row[i] || "";
-      });
+      const sheetAddress =
+        obj.Address ||
+        obj["Street Address"] ||
+        obj["Brewer Park Circle Address"];
+
+      const resident = residents.find(r =>
+        Number(r.unit) === Number(obj.Unit) ||
+        Number(r.address) === Number(sheetAddress)
+      );
+
+      if (resident) {
+        resident.phone1 = obj.Phone1 || obj["Primary Phone"] || resident.phone1;
+        resident.email1 = obj.Email1 || obj["Primary Email"] || resident.email1;
+        resident.phone2 = obj.Phone2 || obj["Secondary Phone"] || resident.phone2;
+        resident.email2 = obj.Email2 || obj["Secondary Email"] || resident.email2;
+        resident.notes = obj.Notes || obj["Notes or Changes"] || resident.notes;
+      }
+    });
+
+    renderList(residents);
+    console.log("Resident contact info updated from Google Sheets");
+
+  } catch (err) {
+    console.error("Google Sheet update failed:", err);
+  }
+});
 
       const resident = residents.find(r =>
   Number(r.unit) === Number(obj.Unit) ||
