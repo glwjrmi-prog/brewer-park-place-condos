@@ -1050,7 +1050,7 @@ const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnN
 async function loadResidentsFromSheet() {
   try {
     const response = await fetch(SHEET_CSV_URL);
-    const csv = await response.text();
+    const response = await fetch(SHEET_CSV_URL + "&cachebust=" + Date.now());
 
     const rows = csv.trim().split("\n").map(r =>
       r.split(",").map(c => c.replace(/^"|"$/g, "").trim())
