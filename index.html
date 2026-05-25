@@ -1045,7 +1045,57 @@ function renderList(items){
 }
 search.addEventListener('input',()=>{ const items=filterResidents(search.value); renderList(items); if(items.length===1) renderDetail(items[0]); });
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
-addMarkers(); renderList(residents);
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?output=csv";
+
+async function loadResidentsFromSheet() {
+  try {
+    const response = await fetch(SHEET_CSV_URL);
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n").map(r =>
+      r.split(",").map(c => c.replace(/^"|"$/g, "").trim())
+    );
+
+    const headers = rows.shift();
+
+    const sheetResidents = rows.map(row => {
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = row[i] || "");
+
+      return {
+        unit: Number(obj.Unit),
+        address: Number(obj.Address),
+        name: obj.Name,
+        phone1: obj.Phone1,
+        email1: obj.Email1,
+        phone2: obj.Phone2,
+        email2: obj.Email2,
+        notes: obj.Notes,
+        x: Number(obj.X),
+        y: Number(obj.Y)
+      };
+    });
+
+    if (sheetResidents.length > 0) {
+      residents.length = 0;
+      residents.push(...sheetResidents);
+
+      mapInner.innerHTML = '<img src="bpp-map.jpg" alt="Brewer Park Place community map">';
+
+      addMarkers();
+      renderList(residents);
+
+      console.log("Residents loaded from Google Sheets");
+    }
+
+  } catch (err) {
+    console.error("Google Sheet load failed:", err);
+  }
+}
+  loadResidentsFromSheet().then(() => {
+  addMarkers();
+  renderList(residents);
+});
 </script>
 <script>
 document.querySelectorAll(".rules-title").forEach(title => {
