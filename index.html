@@ -1092,10 +1092,8 @@ async function loadResidentsFromSheet() {
     console.error("Google Sheet load failed:", err);
   }
 }
-  loadResidentsFromSheet().then(() => {
-  addMarkers();
-  renderList(residents);
-});
+  loadResidentsFromSheet();
+  
 </script>
 <script>
 document.querySelectorAll(".rules-title").forEach(title => {
