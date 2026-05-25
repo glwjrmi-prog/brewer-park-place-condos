@@ -960,7 +960,9 @@ renderAll();
 
 <script>
 /* Embedded Community Map Dashboard Script */
-const residents = [const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?output=csv"];
+let residents = [];
+
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?output=csv";
 const mapInner=document.getElementById('mapInner'); const detail=document.getElementById('detail'); const search=document.getElementById('search'); const resultList=document.getElementById('resultList');
 function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function phoneLink(phone){ if(!phone) return '<span class="note">Missing</span>'; const digits=phone.replace(/\D/g,''); if(digits.length!==10) return `<span class="note">${esc(phone)} — check number</span>`; return `<a href="tel:${digits}">${esc(phone)}</a>`; }
