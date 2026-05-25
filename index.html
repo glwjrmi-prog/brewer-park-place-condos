@@ -1047,7 +1047,61 @@ search.addEventListener('input',()=>{ const items=filterResidents(search.value);
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
 addMarkers();
 renderList(residents);
-  
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?output=csv";
+
+async function updateResidentContactsFromSheet() {
+  try {
+
+    const response = await fetch(
+      SHEET_CSV_URL + "&cachebust=" + Date.now()
+    );
+
+    const csv = await response.text();
+
+    const rows = csv.trim().split("\n").map(r =>
+      r.split(",").map(c =>
+        c.replace(/^"|"$/g, "").trim()
+      )
+    );
+
+    const headers = rows.shift();
+
+    rows.forEach(row => {
+
+      const obj = {};
+
+      headers.forEach((h, i) => {
+        obj[h] = row[i] || "";
+      });
+
+      const resident = residents.find(r =>
+        Number(r.unit) === Number(obj.Unit)
+      );
+
+      if (resident) {
+
+        resident.phone1 = obj.Phone1 || resident.phone1;
+        resident.email1 = obj.Email1 || resident.email1;
+
+        resident.phone2 = obj.Phone2 || resident.phone2;
+        resident.email2 = obj.Email2 || resident.email2;
+
+        resident.notes = obj.Notes || resident.notes;
+
+      }
+
+    });
+
+    console.log("Resident contact info updated from Google Sheets");
+
+  } catch (err) {
+
+    console.error("Google Sheet update failed:", err);
+
+  }
+}
+
+updateResidentContactsFromSheet();  
 </script>
 <script>
 document.querySelectorAll(".rules-title").forEach(title => {
