@@ -1071,91 +1071,9 @@ function renderList(items){
 }
 search.addEventListener('input',()=>{ const items=filterResidents(search.value); renderList(items); if(items.length===1) renderDetail(items[0]); });
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
-addMarkers();
-renderList(residents);
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?gid=0&single=true&output=csv";
-
-async function updateResidentContactsFromSheet() {
-  try {
-
-    async function updateResidentContactsFromSheet() {
-  try {
-    const response = await fetch(SHEET_CSV_URL + "&cachebust=" + Date.now());
-    const csv = await response.text();
-
-    const rows = csv.trim().split("\n").map(r =>
-      r.split(",").map(c => c.replace(/^"|"$/g, "").trim())
-    );
-
-    const headers = rows.shift();
-
-    rows.forEach(row => {
-      const obj = {};
-      headers.forEach((h, i) => obj[h.trim()] = row[i] || "");
-
-      const sheetAddress =
-        obj.Address ||
-        obj["Street Address"] ||
-        obj["Brewer Park Circle Address"];
-
-      const resident = residents.find(r =>
-        Number(r.unit) === Number(obj.Unit) ||
-        Number(r.address) === Number(sheetAddress)
-      );
-
-      if (resident) {
-        resident.phone1 = obj.Phone1 || obj["Primary Phone"] || resident.phone1;
-        resident.email1 = obj.Email1 || obj["Primary Email"] || resident.email1;
-        resident.phone2 = obj.Phone2 || obj["Secondary Phone"] || resident.phone2;
-        resident.email2 = obj.Email2 || obj["Secondary Email"] || resident.email2;
-        resident.notes = obj.Notes || obj["Notes or Changes"] || resident.notes;
-      }
-    });
-
-    renderList(residents);
-    console.log("Resident contact info updated from Google Sheets");
-
-  } catch (err) {
-    console.error("Google Sheet update failed:", err);
-  }
-});
-
-      const resident = residents.find(r =>
-  Number(r.unit) === Number(obj.Unit) ||
-  Number(r.address) === Number(obj.Address) ||
-  Number(r.address) === Number(obj["Street Address"]) ||
-  Number(r.address) === Number(obj["Brewer Park Circle Address"])
-);
-
-      if (resident) {
-
-        resident.phone1 = obj.Phone1 || resident.phone1;
-        resident.email1 = obj.Email1 || resident.email1;
-
-        resident.phone2 = obj.Phone2 || resident.phone2;
-        resident.email2 = obj.Email2 || resident.email2;
-
-        resident.notes = obj.Notes || resident.notes;
-
-      }
-
-    });
-
-    console.log("Resident contact info updated from Google Sheets");
-
-  } catch (err) {
-
-    console.error("Google Sheet update failed:", err);
-
-  }
-}
 
 addMarkers();
 renderList(residents);
-
-// updateResidentContactsFromSheet().then(() => {
-//   renderList(residents);
-// });
 </script>
 <script>
 document.querySelectorAll(".rules-title").forEach(title => {
