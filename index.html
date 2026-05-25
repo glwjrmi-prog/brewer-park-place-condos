@@ -1018,7 +1018,16 @@ function renderDetail(r){
   }); 
 }
 function selectUnit(unit){ const r=residents.find(x=>x.unit===unit); if(r) renderDetail(r); }
-function filterResidents(q){ q=q.trim().toLowerCase(); if(!q) return residents; return residents.filter(r=>String(r.unit).includes(q)||String(r.address).includes(q)||r.name.toLowerCase().includes(q)||r.last.toLowerCase().includes(q)||r.first.toLowerCase().includes(q)||r.second.toLowerCase().includes(q)); }
+function filterResidents(q){
+  q = q.trim().toLowerCase();
+  if(!q) return residents;
+
+  return residents.filter(r =>
+    String(r.unit || "").includes(q) ||
+    String(r.address || "").includes(q) ||
+    String(r.name || "").toLowerCase().includes(q)
+  );
+}
 
 function highlightSearchResults(items) {
   document.querySelectorAll('.marker').forEach(m => m.classList.remove('search-match'));
