@@ -391,371 +391,204 @@
   
     /* Embedded Community Map Dashboard */
 
-#community-map-dashboard {
-  background:#f4f6f8;
-  color:#1f2937;
-  border-radius:22px;
-  overflow:visible;
-  padding-top:6px;
-}
-#community-map-dashboard * { box-sizing:border-box; }
-#community-map-dashboard .app {
-  display:grid;
-  grid-template-columns:1fr 420px;
-  gap:18px;
-  padding:18px;
-  max-width:1400px;
-  margin:0 auto;
-}
-#community-map-dashboard .panel { background:#fff; border:1px solid #d1d5db; border-radius:16px; box-shadow:0 8px 24px rgba(0,0,0,.08); overflow:hidden; }
-#community-map-dashboard .toolbar {
-  padding:10px 14px;
-  display:flex;
-  gap:10px;
-  border-bottom:1px solid #d1d5db;
-  align-items:center;
-  height:auto;
-  background:#ffffff;
-  position:sticky;
-  top:0;
-  z-index:20;
-}
-#community-map-dashboard input {
-  width:100%;
-  font-size:16px;
-  padding:10px 12px;
-  height:42px;
-  border:1px solid #d1d5db;
-  border-radius:12px;
-}
-#community-map-dashboard button {
-  font-size:16px;
-  height:42px;
-  padding:0 14px;
-  border:0;
-  border-radius:12px;
-  background:#2563eb;
-  color:#fff;
-  cursor:pointer;
-}
-#community-map-dashboard button:hover { background:#1d4ed8; }
-#community-map-dashboard .map-wrap {
-  position:relative;
-  width:100%;
-  overflow:auto;
-  background:#e5e7eb;
-  display:flex;
-  justify-content:center;
-}
-#community-map-dashboard .map-inner {
-  position: relative;
-  display: inline-block;
+/* Embedded Community Map Dashboard Script */
+
+let residents = [];
+
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?output=csv";
+
+const mapInner = document.getElementById("mapInner");
+const detail = document.getElementById("detail");
+const search = document.getElementById("search");
+const resultList = document.getElementById("resultList");
+
+function esc(s){
+  return String(s ?? "").replace(/[&<>'"]/g, c => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    "'":"&#39;",
+    '"':"&quot;"
+  }[c]));
 }
 
-#community-map-dashboard .map-inner img {
-  display: block;
-  max-width: none;
-}
-    
-#community-map-dashboard .marker {
-  position: absolute;
-  transform: translate(-50%,-50%);
-  
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-
-  color: white;
-  font-weight: 900;
-  font-size: 20px;
-  line-height: 1;
-
-  text-shadow:
-    -2px -2px 0 #000,
-     2px -2px 0 #000,
-    -2px  2px 0 #000,
-     2px  2px 0 #000,
-     0 0 6px #000;
-
-  padding: 0;
-  margin: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  min-width: 28px;
-  min-height: 28px;
-}
-#community-map-dashboard .marker:hover,
-#community-map-dashboard .marker.active { background:rgba(37,99,235,.25); border-color:#2563eb; box-shadow:0 0 0 4px rgba(37,99,235,.2); }
-#community-map-dashboard .marker.problem { border-color:rgba(220,38,38,.45); }
-#community-map-dashboard .detail { padding:20px; }
-#community-map-dashboard .detail h2 { font-size:30px; margin:0 0 4px; }
-#community-map-dashboard .sub { font-size:18px; color:#6b7280; margin-bottom:18px; }
-#community-map-dashboard .info-row { border-top:1px solid #d1d5db; padding:14px 0; }
-#community-map-dashboard .label { font-size:14px; color:#6b7280; text-transform:uppercase; letter-spacing:.05em; margin-bottom:4px; }
-#community-map-dashboard .value { font-size:22px; font-weight:700; }
-#community-map-dashboard .phone a { color:#2563eb; text-decoration:none; }
-#community-map-dashboard .note { color:#dc2626; font-weight:700; }
-#community-map-dashboard .list { max-height:420px; overflow:auto; border-top:1px solid #d1d5db; }
-#community-map-dashboard .list-item { padding:12px 16px; border-bottom:1px solid #d1d5db; cursor:pointer; }
-#community-map-dashboard .list-item:hover { background:#eff6ff; }
-#community-map-dashboard .badge { display:inline-block; font-size:13px; padding:4px 8px; border-radius:999px; background:#e5e7eb; margin-left:6px; }
-#community-map-dashboard .badge.warn { color:#991b1b; background:#fee2e2; }
-#community-map-dashboard .footer-note { padding:12px 16px; color:#6b7280; font-size:14px; border-top:1px solid #d1d5db; }
-@media(max-width:950px) {
-  #community-map-dashboard .app { grid-template-columns:1fr; }
-  #community-map-dashboard .map-wrap { max-height:70vh; }
+function phoneLink(phone){
+  if(!phone) return "—";
+  const digits = String(phone).replace(/\D/g,"");
+  if(digits.length !== 10) return `<span class="note">${esc(phone)} — check number</span>`;
+  return `<a href="tel:${digits}">${esc(phone)}</a>`;
 }
 
-  
-#community-map-dashboard .marker.search-match {
-  background:rgba(220,38,38,.32);
-  border-color:#dc2626;
-  box-shadow:0 0 0 6px rgba(220,38,38,.22);
+function parseCSV(csv){
+  const rows = [];
+  let row = [];
+  let cell = "";
+  let inQuotes = false;
+
+  for(let i = 0; i < csv.length; i++){
+    const char = csv[i];
+    const next = csv[i + 1];
+
+    if(char === '"' && inQuotes && next === '"'){
+      cell += '"';
+      i++;
+    } else if(char === '"'){
+      inQuotes = !inQuotes;
+    } else if(char === "," && !inQuotes){
+      row.push(cell.trim());
+      cell = "";
+    } else if((char === "\n" || char === "\r") && !inQuotes){
+      if(cell || row.length){
+        row.push(cell.trim());
+        rows.push(row);
+        row = [];
+        cell = "";
+      }
+    } else {
+      cell += char;
+    }
+  }
+
+  if(cell || row.length){
+    row.push(cell.trim());
+    rows.push(row);
+  }
+
+  return rows;
 }
 
-  </style>
-</head>
-<body>
-<header>
-  <div class="hero">
-    <div>
-      <span class="brand-kicker">Community Hub</span>
-      <h1 id="hoaName">Brewer Park Place Condos</h1>
-      <p id="subtitle">Documents, contacts, announcements, and resident resources in one clean place.</p>
-    </div>
-    
-  </div>
-</header>
+function renderDetail(r){
+  document.querySelectorAll(".marker").forEach(m => m.classList.remove("active","search-match"));
 
-<main>
-  
+  const marker = document.querySelector(`.marker[data-unit="${r.unit}"]`);
+  if(marker) marker.classList.add("active");
 
-  <nav aria-label="Main sections">
-    <a href="#pay-dues">Pay Dues</a>
-    <a href="#announcements">Announcements</a>
-    <a href="#documents">Documents</a>
-    <a href="#contacts">Contacts</a>
-    <a href="#community-map">Community Map</a>
-    <a href="#community-rules">Community Rules</a>
-  </nav>
+  detail.innerHTML = `
+    <h2>${esc(r.name)}</h2>
+    <div class="sub">Unit ${esc(r.unit)} • Street # ${esc(r.address)}</div>
 
- <section id="announcements">
-  <div class="section-title">
-    <h2>Announcements</h2>
-    <p class="section-note">Current community updates</p>
-  </div>
-  <ul id="announcementGrid" class="announcement-list"></ul>
-</section>
-
-
- <section id="bylaws">
-  <div class="section-title">
-    <h2>Bylaws</h2>
-    <p class="section-note">Official community bylaws</p>
-  </div>
-
-  <div class="card">
-  <h3>Brewer Park Place Condos Bylaws</h3>
-  <p>View the bylaws directly below or download a copy.</p>
-
-  <p>
-    <a class="button-link" href="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/view?usp=sharing" target="_blank">
-      Download Bylaws
-    </a>
-  </p>
-
-  <iframe
-      src="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/preview"
-      width="100%" 
-      height="600px" 
-      style="border:1px solid #ccc; border-radius:12px;">
-    </iframe>
-  </div>
-</section>
-  <section id="community-rules">
-  <div class="section-title">
-    <h2>Community Rules</h2>
-    <p class="section-note">Searchable rules and regulations</p>
-  </div>
-
-  <div class="card">
-
-    <input
-      id="rulesSearch"
-      type="search"
-      placeholder="Search rules: parking, pets, decorations, fire pits..."
-      style="width:100%; padding:14px; font-size:18px; border:1px solid #d9e2ea; border-radius:12px; margin-bottom:20px;"
-    >
-
-    <p>
-      <a class="button-link"
-         href="https://drive.google.com/file/d/1xYm-x0zJaUz3wFuI6spm7TD19qVD8xUI/view?usp=sharing"
-         target="_blank">
-         Click here for complete Rules & Regulations
-      </a>
-    </p>
-
-    <div class="rules-section">
-      <h3 class="rules-title">General</h3>
-      <div class="rules-content">
-        <p>No yard sales, garage sales, rummage or estate sales, or auctions are permitted.</p>
-        <p>Co-owners selling units must notify the Board and provide realtor information.</p>
-      </div>
+    <div class="info-row">
+      <div class="label">Primary Phone</div>
+      <div class="value phone">${phoneLink(r.phone1)}</div>
     </div>
 
-    <div class="rules-section">
-      <h3 class="rules-title">Exterior of Units and Common Areas</h3>
-      <div class="rules-content">
-        <p>No more than three security cameras may be attached to a unit.</p>
-        <p>Wind chimes are prohibited.</p>
-        <p>Trash containers must remain in garages except on trash day.</p>
-        <p>Propane fire tables are allowed if compliant with fire codes.</p>
-      </div>
+    <div class="info-row">
+      <div class="label">Primary Email</div>
+      <div class="value phone">${r.email1 ? `<a href="mailto:${esc(r.email1)}">${esc(r.email1)}</a>` : "—"}</div>
     </div>
 
-    <div class="rules-section">
-      <h3 class="rules-title">Parking</h3>
-      <div class="rules-content">
-        <p>Guests should use driveways or guest parking lots.</p>
-        <p>No parking on sidewalks or grass.</p>
-        <p>Garage doors should remain closed except during active use.</p>
-      </div>
+    <div class="info-row">
+      <div class="label">Secondary Phone</div>
+      <div class="value phone">${phoneLink(r.phone2)}</div>
     </div>
 
-    <div class="rules-section">
-      <h3 class="rules-title">Pets</h3>
-      <div class="rules-content">
-        <p>Pets must be leashed and under control outdoors.</p>
-        <p>Residents must immediately clean up after pets.</p>
-        <p>Pet owners must complete pet registration.</p>
-      </div>
+    <div class="info-row">
+      <div class="label">Secondary Email</div>
+      <div class="value phone">${r.email2 ? `<a href="mailto:${esc(r.email2)}">${esc(r.email2)}</a>` : "—"}</div>
     </div>
 
-    <div class="rules-section">
-      <h3 class="rules-title">Violations and Fines</h3>
-      <div class="rules-content">
-        <p>The Board may levy fines for violations.</p>
-        <p>$100 fines may apply after 30 days.</p>
-        <p>$500 fines may apply after 60 days or repeated violations.</p>
-      </div>
+    <div class="info-row">
+      <div class="label">Notes</div>
+      <div class="value ${r.notes ? "note" : ""}">${esc(r.notes || "No issues flagged")}</div>
     </div>
+  `;
+}
 
-  </div>
-</section>
-  <section id="pay-dues">
-  <div class="section-title">
-    <h2>Pay HOA Dues</h2>
-    <p class="section-note">Convenient payment options</p>
-  </div>
+function addMarkers(){
+  mapInner.querySelectorAll(".marker").forEach(m => m.remove());
 
-  <div class="card">
+  residents.forEach(r => {
+    if(!r.x || !r.y) return;
 
-    
-<h3>Zelle</h3>
-<p>To pay HOA dues by Zelle, open your banking app and send payment to:</p>
-<p><strong>treasurer@bppcondos.org</strong></p>
-<p>Please include your street address or unit number in the memo.</p>
-<p>You may also scan the HOA Zelle QR code below using your bank app.</p>
-    <p>
-      Please include your unit number or street address in the memo field.
-    </p>
+    const m = document.createElement("button");
+    m.className = "marker" + (r.notes ? " problem" : "");
+    m.style.left = r.x + "px";
+    m.style.top = r.y + "px";
+    m.dataset.unit = r.unit;
+    m.title = `${r.address} Brewer Park Circle - ${r.name}`;
+    m.setAttribute("aria-label", `${r.address} Brewer Park Circle, ${r.name}`);
+    m.textContent = r.address;
+    m.addEventListener("click", () => renderDetail(r));
+    mapInner.appendChild(m);
+  });
+}
 
-    <hr style="margin:24px 0;">
+function selectUnit(unit){
+  const r = residents.find(x => Number(x.unit) === Number(unit));
+  if(r) renderDetail(r);
+}
 
-    <h3>Bank Bill Pay</h3>
+function filterResidents(q){
+  q = q.trim().toLowerCase();
+  if(!q) return residents;
 
-    <p>
-      Residents may also use their bank’s online bill pay service.
-    </p>
+  return residents.filter(r =>
+    String(r.unit || "").includes(q) ||
+    String(r.address || "").includes(q) ||
+    String(r.name || "").toLowerCase().includes(q)
+  );
+}
 
-    <p>
-      Make checks payable to:
-      <strong>Brewer Park Place Condominium Association</strong>
-    </p>
-
-    <p>
-      Mailing address:<br>
-      YOUR HOA MAILING ADDRESS HERE
-    </p>
-
-  </div>
-</section>
-  <section id="documents">
-  <div class="section-title">
-    <h2>Documents</h2>
-    <p class="section-note">Rules, forms, budgets, and meeting records</p>
-  </div>
-
-  <div id="documentGrid" class="grid"></div>
-</section>
- <section id="meeting-minutes">
-  <div class="section-title">
-    <h2>Board Meeting Minutes</h2>
-    <p class="section-note">Monthly meeting records</p>
-  </div>
-
-  <div class="card">
-    <ul class="announcement-list">
-
-      <li>
-        <a href="https://drive.google.com/file/d/1KUnZX_1uBzK_K31FCvzOLIOJaQi0rBA9/view?usp=sharing" target="_blank">
-          March 2026 Board Meeting Minutes
-        </a>
-      </li>
-      
-      <li>
-        <a href="https://drive.google.com/file/d/18lxhR6MXRfJQtGwbCtFrB0yf-QX0rPBX/view?usp=sharing" target="_blank">
-          April 2026 Board Meeting Minutes
-        </a>
-      </li>
-
-      
-
-    </ul>
-  </div>
-</section>
-  <section id="contacts">
-  <div class="section-title">
-    <h2>Contacts</h2>
-    <p class="section-note">CONTACTS UPDATED: phone numbers are now clickable</p>
-  </div>
-    <span id="contactCount" style="display:none;"></span>
-    <div id="contactGroups"></div>
-  </section>
-
-
-  <section id="community-map">
-    <div class="section-title">
-      <h2>Community Map</h2>
-      <p class="section-note">Click a unit to view resident details</p>
+function renderList(items){
+  resultList.innerHTML = items.map(r => `
+    <div class="list-item" onclick="selectUnit(${Number(r.unit)})">
+      <strong>${esc(r.address)} Brewer Park Circle</strong>
+      <span class="badge">Unit ${esc(r.unit)}</span><br>
+      ${esc(r.name)}
     </div>
-    <div id="community-map-dashboard">
-<div class="app">
-<section class="panel">
-<div class="toolbar"><input id="search" placeholder="Search by name, unit, or street number..." autocomplete="off"><button onclick="clearSearch()">Clear</button></div>
-<div class="map-wrap" id="mapWrap">
-  <div class="map-inner" id="mapInner">
-    <img src="bpp-map.jpg" alt="Brewer Park Place community map">
-    </div>
-</div>
-</section>
-<aside class="panel"><div class="detail" id="detail"><h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div></div><div class="list" id="resultList"></div><div class="footer-note">Missing or invalid phone numbers are flagged in red.</div></aside>
-</div>
-    </div>
-  </section>
+  `).join("");
+}
 
-  
-     
-</main>
+search.addEventListener("input", () => {
+  const items = filterResidents(search.value);
+  renderList(items);
+  if(items.length === 1) renderDetail(items[0]);
+});
 
-<footer>
-  <div id="publicNotice">Starter template for Brewer Park Place Condos. Replace sample documents and contacts before publishing.</div>
-  <div>Primary contact: <a "email": "property@bppcondos.org"">property@bppcondos.org</a></div>
-</footer>
+function clearSearch(){
+  search.value = "";
+  renderList(residents);
+  document.querySelectorAll(".marker").forEach(m => m.classList.remove("active","search-match"));
+  detail.innerHTML = '<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>';
+}
 
+async function loadResidentsFromSheet(){
+  try {
+    const response = await fetch(SHEET_CSV_URL);
+    const csv = await response.text();
+    const rows = parseCSV(csv).filter(row => row.some(cell => cell !== ""));
+
+    const headers = rows.shift().map(h => h.trim());
+
+    residents = rows.map(row => {
+      const obj = {};
+      headers.forEach((h, i) => obj[h] = row[i] || "");
+
+      return {
+        unit: Number(obj.Unit || obj["Unit Number"]),
+        address: obj.Address,
+        name: obj.Name || obj["Resident Name"],
+        phone1: obj.Phone1 || obj["Primary Phone"],
+        email1: obj.Email1 || obj["Primary Email"],
+        phone2: obj.Phone2 || obj["Secondary Phone"],
+        email2: obj.Email2 || obj["Secondary Email"],
+        notes: obj.Notes || obj["Notes or Changes"],
+        x: Number(obj.X),
+        y: Number(obj.Y),
+        show: obj.Show || "Yes"
+      };
+    }).filter(r => r.unit && r.address && r.show !== "No");
+
+    addMarkers();
+    renderList(residents);
+
+  } catch(error) {
+    detail.innerHTML = `<h2>Map data could not load</h2><div class="sub">Check the Google Sheet sharing and published CSV link.</div>`;
+    console.error(error);
+  }
+}
+
+loadResidentsFromSheet();
 <script>
 const SETTINGS = {
   hoaName: "Brewer Park Place Condos",
