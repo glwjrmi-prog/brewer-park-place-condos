@@ -1101,8 +1101,11 @@ async function updateResidentContactsFromSheet() {
       });
 
       const resident = residents.find(r =>
-        Number(r.unit) === Number(obj.Unit)
-      );
+  Number(r.unit) === Number(obj.Unit) ||
+  Number(r.address) === Number(obj.Address) ||
+  Number(r.address) === Number(obj["Street Address"]) ||
+  Number(r.address) === Number(obj["Brewer Park Circle Address"])
+);
 
       if (resident) {
 
