@@ -1127,7 +1127,9 @@ async function updateResidentContactsFromSheet() {
   }
 }
 
-updateResidentContactsFromSheet();  
+updateResidentContactsFromSheet().then(() => {
+  renderList(residents);
+});  
 </script>
 <script>
 document.querySelectorAll(".rules-title").forEach(title => {
