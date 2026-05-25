@@ -1047,7 +1047,7 @@ search.addEventListener('input',()=>{ const items=filterResidents(search.value);
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
 addMarkers();
 renderList(residents);
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?output=csv";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSuIFWHnNjdtffjE4eyNf1AZ-qlQOEqSmOZTdwvYWkCpeI61XcxzS1gkPFdRjO8BwFyBZVW57OWfa01/pub?gid=0&single=true&output=csv";
 
 async function updateResidentContactsFromSheet() {
   try {
