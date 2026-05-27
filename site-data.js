@@ -32,10 +32,6 @@ const ANNOUNCEMENTS = [
   {
     message: "Follow pet policies, including leash requirements and waste cleanup.",
     show: "Yes"
-  },
-  {
-    message: "Dues and water invoices, if applicable, are emailed quarterly in January, April, July, and October. Payments can be placed in the black box located on the mailbox bank near 49 Brewer Park Circle.",
-    show: "Yes"
   }
 ];
 
