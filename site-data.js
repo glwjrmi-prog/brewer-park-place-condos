@@ -5,8 +5,8 @@
 ========================= */
 
 const SETTINGS = {
-  hoaName: "Brewer Park Place Condos",
-  subtitle: "Documents, contacts, announcements, and resident resources in one clean place.",
+  hoaName: "Brewer Park Place Condominiums",
+  subtitle: "Resident Resources",
   contactEmail: "property@bppcondos.org",
   publicNotice: "Brewer Park Place Condos community website."
 };
