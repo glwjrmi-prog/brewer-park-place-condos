@@ -37,7 +37,7 @@
       line-height: 1.5;
     }
 
-   header {
+  header {
   color: white;
 
   background-image:
@@ -45,10 +45,10 @@
     url("bpp-entrance-2.jpg");
 
   background-size: cover;
-  background-position: center 62%;
+  background-position: center 70%;
   background-repeat: no-repeat;
 
-  min-height: 420px;
+  min-height: 520px;
 
   padding: 42px 22px 34px;
   border-bottom: 6px solid rgba(255,255,255,.22);
