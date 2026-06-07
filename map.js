@@ -33,7 +33,7 @@ function renderDetail(r){
 
 ${contactBlock(r.second || "Secondary Contact", r.phone2, r.email2)}
     <div class="info-row">
-      <div class="label">Notes</div>
+      <div class="label">Tell something about yourself.</div>
       <div class="value ${r.notes ? 'note' : ''}">${esc(r.notes || 'No issues flagged')}</div>
     </div>
   `;
