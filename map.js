@@ -4,6 +4,20 @@ const residents = [{"unit": 1, "address": 22, "last": "DeHaan", "first": "Fred",
 const mapInner=document.getElementById('mapInner'); const detail=document.getElementById('detail'); const search=document.getElementById('search'); const resultList=document.getElementById('resultList');
 function esc(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
 function phoneLink(phone){ if(!phone) return '<span class="note">Missing</span>'; const digits=phone.replace(/\D/g,''); if(digits.length!==10) return `<span class="note">${esc(phone)} — check number</span>`; return `<a href="tel:${digits}">${esc(phone)}</a>`; }
+function contactBlock(label, phone, email) {
+  if (!phone && !email) return "";
+
+  return `
+    <div class="info-row">
+      <div class="label">${esc(label)}</div>
+      <div class="value phone">
+        ${phone ? phoneLink(phone) : ""}
+        ${phone && email ? "<br>" : ""}
+        ${email ? `<a href="mailto:${esc(email)}">${esc(email)}</a>` : ""}
+      </div>
+    </div>
+  `;
+}
 function renderDetail(r){
   document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match'));
 
@@ -85,7 +99,5 @@ function renderList(items){
 }
 search.addEventListener('input',()=>{ const items=filterResidents(search.value); renderList(items); if(items.length===1) renderDetail(items[0]); });
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
-addMarkers();
-renderList(residents);
 addMarkers();
 renderList(residents);
