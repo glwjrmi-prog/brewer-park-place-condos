@@ -29,26 +29,9 @@ function renderDetail(r){
 
     <div class="sub">Unit ${r.unit} • Street # ${esc(r.address)}</div>
 
-    <div class="info-row">
-      <div class="label">Primary Phone</div>
-      <div class="value phone">${phoneLink(r.phone1)}</div>
-    </div>
+    ${contactBlock(r.first || "Primary Contact", r.phone1, r.email1)}
 
-    <div class="info-row">
-      <div class="label">Primary Email</div>
-      <div class="value phone">${r.email1 ? `<a href="mailto:${esc(r.email1)}">${esc(r.email1)}</a>` : '—'}</div>
-    </div>
-
-    <div class="info-row">
-      <div class="label">Secondary Phone</div>
-      <div class="value phone">${r.phone2 ? phoneLink(r.phone2) : '—'}</div>
-    </div>
-
-    <div class="info-row">
-      <div class="label">Secondary Email</div>
-      <div class="value phone">${r.email2 ? `<a href="mailto:${esc(r.email2)}">${esc(r.email2)}</a>` : '—'}</div>
-    </div>
-
+${contactBlock(r.second || "Secondary Contact", r.phone2, r.email2)}
     <div class="info-row">
       <div class="label">Notes</div>
       <div class="value ${r.notes ? 'note' : ''}">${esc(r.notes || 'No issues flagged')}</div>
