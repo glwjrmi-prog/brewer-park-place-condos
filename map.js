@@ -84,3 +84,19 @@ search.addEventListener('input',()=>{ const items=filterResidents(search.value);
 function clearSearch(){ search.value=''; renderList(residents); document.querySelectorAll('.marker').forEach(m=>m.classList.remove('active','search-match')); detail.innerHTML='<h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div>'; }
 addMarkers();
 renderList(residents);
+function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+}
+
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('topBtn');
+
+  if (window.scrollY > 300) {
+    btn.classList.add('show');
+  } else {
+    btn.classList.remove('show');
+  }
+});
