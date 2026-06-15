@@ -302,74 +302,60 @@ function renderAll() {
 
 renderAll();
 const BYLAWS_SEARCH = [
-  {
-    title: "Article I — The Condominium Project",
-    text: "Organization, compliance, purpose of bylaws, condominium project, association."
-  },
-  {
-    title: "Article II — Membership and Voting",
-    text: "Membership, voting rights, persons entitled to vote, method of voting, majority."
-  },
-  {
-    title: "Article III — Meetings and Quorum",
-    text: "Annual meetings, special meetings, notice, quorum, proxies, electronic and remote means."
-  },
-  {
-    title: "Article IV — Administration",
-    text: "Board of Directors, powers and duties, directors, officers, professional management agent, finance, insurance, expenses."
-  },
-  {
-    title: "Article V — Operation of the Property",
-    text: "Personal property, costs and receipts to be common, books of account, regular monthly assessments, special assessments, collection of assessments, obligations of developer, maintenance and repair, taxes, documents to be kept, reserve for major repairs and replacement."
-  },
-  {
-    title: "Article VI — Insurance, Repair, Replacement, Condemnation, Construction Liens, Real Estate Matters",
-    text: "Insurance, appointment of association, reconstruction or repair, notification of mortgagees, eminent domain, mortgages, construction liens, matters concerning real estate."
-  },
-  {
-    title: "Article VII — Use and Occupancy Restrictions; Enforcement",
-    text: "Establishment of restrictions, drain easements, persons with disabilities, enforcement."
-  },
- {
-  title: "Article VIII, Section 1 — Limitation Upon Leasing",
-  text: "lease leasing rent rental tenant landlord occupant"
-},
-{
-  title: "Article VIII, Section 2 — Notice of Intent to Lease",
-  text: "lease notice leasing notification board association"
-},
-{
-  title: "Article VIII, Section 3 — Non-Co-Owner Compliance",
-  text: "tenant renter rules regulations violations compliance"
-},
-  {
-    title: "Article IX — Mortgages",
-    text: "Notice of mortgage, notice of default, notice of insurance, notice of meetings, acquisition of title by first mortgagee, financial statements, inspection, foreclosure."
-  },
-  {
-    title: "Article X — Amendments",
-    text: "Proposal, meeting to be held, amendments not materially changing bylaws, effective date, costs of amendment, notice copies of amendment."
-  },
-  {
-    title: "Article XI — Definitions",
-    text: "Definitions."
-  },
-  {
-    title: "Article XII — Remedies for Default",
-    text: "Relief available, failure to enforce, rights cumulative, hearing."
-  },
-  {
-    title: "Article XIII — Arbitration",
-    text: "Submission to arbitration, effect of election, preservation of rights."
-  },
-  {
-    title: "Article XIV — Severability",
-    text: "Severability."
-  },
-  {
-    title: "Article XV — Conflicting Provisions",
-    text: "Conflicting provisions."
-  }
+  { title: "Article I, Section 1 — Organization", text: "organization association condominium project administration Brewer Park Place" },
+  { title: "Article I, Section 2 — Compliance", text: "compliance bylaws master deed rules regulations co-owner owner duties" },
+  { title: "Article I, Section 3 — Purpose of Bylaws", text: "purpose bylaws governance administration condominium project" },
+
+  { title: "Article II, Section 1 — Membership", text: "membership association co-owner unit owner voting membership rights" },
+  { title: "Article II, Section 2 — Voting Rights", text: "vote voting rights percentage value owner co-owner" },
+  { title: "Article II, Section 3 — Persons Entitled to Vote", text: "vote person entitled voting representative owner co-owner" },
+  { title: "Article II, Section 4 — Method of Voting", text: "voting ballot proxy in person vote method" },
+  { title: "Article II, Section 5 — Majority", text: "majority vote approval members quorum" },
+
+  { title: "Article III, Section 1 — Procedure", text: "meetings procedure annual meeting special meeting order association" },
+  { title: "Article III, Section 2 — Annual Meetings of Members", text: "annual meeting members board election yearly meeting" },
+  { title: "Article III, Section 3 — Special Meetings of Members", text: "special meeting members president board request notice" },
+  { title: "Article III, Section 4 — Notice", text: "notice meeting mail electronic communication members" },
+  { title: "Article III, Section 5 — Quorum of Members", text: "quorum members meeting vote majority" },
+  { title: "Article III, Section 6 — Remote Meetings", text: "conference telephone remote communication electronic meeting" },
+  { title: "Article III, Section 7 — Electronic and Remote Means", text: "electronic remote participation vote consent communication" },
+
+  { title: "Article IV, Section 1 — Board of Directors; Terms", text: "board directors terms election management authority" },
+  { title: "Article IV, Section 2 — Election of Directors", text: "election directors board annual meeting" },
+  { title: "Article IV, Section 3 — Powers and Duties", text: "board powers duties rules regulations maintenance insurance assessments enforcement" },
+  { title: "Article IV, Section 4 — Meetings of Directors", text: "board meetings directors regular special notice quorum" },
+  { title: "Article IV, Section 5 — Professional Management Agent", text: "management property manager professional agent contract" },
+  { title: "Article IV, Section 6 — Officers", text: "officers president secretary treasurer board duties" },
+  { title: "Article IV, Section 7 — Actions Prior to First Meeting", text: "actions first meeting directors developer transition" },
+  { title: "Article IV, Section 8 — Seal", text: "corporate seal association" },
+  { title: "Article IV, Section 9 — Finance", text: "finance fiscal year depository banking funds" },
+  { title: "Article IV, Section 10 — Indemnification, Insurance and Expenses", text: "indemnification insurance expenses liability directors officers protection" },
+
+  { title: "Article V, Section 1 — Personal Property", text: "personal property common elements owner responsibility" },
+  { title: "Article V, Section 2 — Costs and Receipts to be Common", text: "common expenses costs receipts administration maintenance" },
+  { title: "Article V, Section 3 — Books of Account", text: "records books account financial statements audit inspection" },
+  { title: "Article V, Section 4 — Regular Monthly Assessments", text: "assessments dues monthly payments budget expenses HOA dues" },
+  { title: "Article V, Section 5 — Special Assessments", text: "special assessment repairs improvements emergency expense owner payment" },
+  { title: "Article V, Section 6 — Collection of Assessments", text: "collection unpaid dues delinquent late fees lien foreclosure interest attorney fees" },
+  { title: "Article V, Section 7 — Obligations of Developer", text: "developer obligations assessments developer responsibility" },
+  { title: "Article V, Section 8 — Maintenance and Repair", text: "maintenance repair common elements unit responsibility repair replacement" },
+  { title: "Article V, Section 9 — Taxes", text: "taxes property tax assessment" },
+  { title: "Article V, Section 10 — Documents to be Kept", text: "documents records books bylaws master deed rules keep retain" },
+  { title: "Article V, Section 11 — Reserve for Major Repairs and Replacement", text: "reserve fund major repairs replacement capital expenses" },
+
+  { title: "Article VI — Insurance, Repair, Replacement and Real Estate Matters", text: "insurance repair replacement condemnation construction liens mortgages real estate" },
+
+  { title: "Article VII — Use and Occupancy Restrictions; Enforcement", text: "use occupancy restrictions enforcement rules violations disabilities drain easements" },
+
+  { title: "Article VIII — Leasing of Units", text: "lease leasing rental rent tenant non co-owner occupant landlord notice lease rights" },
+
+  { title: "Article IX — Mortgages", text: "mortgage lender notice default insurance foreclosure financial statements inspection" },
+
+  { title: "Article X — Amendments", text: "amendments bylaws proposal meeting effective date costs notice" },
+
+  { title: "Article XII — Remedies for Default", text: "default remedies enforcement violation hearing failure to enforce rights cumulative" },
+
+  { title: "Article XIII — Arbitration", text: "arbitration dispute election preservation rights" }
 ];
 
 function setupBylawsSearch() {
