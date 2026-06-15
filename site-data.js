@@ -301,3 +301,97 @@ function renderAll() {
 }
 
 renderAll();
+const BYLAWS_SEARCH = [
+  {
+    title: "Article I — The Condominium Project",
+    text: "Organization, compliance, purpose of bylaws, condominium project, association."
+  },
+  {
+    title: "Article II — Membership and Voting",
+    text: "Membership, voting rights, persons entitled to vote, method of voting, majority."
+  },
+  {
+    title: "Article III — Meetings and Quorum",
+    text: "Annual meetings, special meetings, notice, quorum, proxies, electronic and remote means."
+  },
+  {
+    title: "Article IV — Administration",
+    text: "Board of Directors, powers and duties, directors, officers, professional management agent, finance, insurance, expenses."
+  },
+  {
+    title: "Article V — Operation of the Property",
+    text: "Personal property, costs and receipts to be common, books of account, regular monthly assessments, special assessments, collection of assessments, obligations of developer, maintenance and repair, taxes, documents to be kept, reserve for major repairs and replacement."
+  },
+  {
+    title: "Article VI — Insurance, Repair, Replacement, Condemnation, Construction Liens, Real Estate Matters",
+    text: "Insurance, appointment of association, reconstruction or repair, notification of mortgagees, eminent domain, mortgages, construction liens, matters concerning real estate."
+  },
+  {
+    title: "Article VII — Use and Occupancy Restrictions; Enforcement",
+    text: "Establishment of restrictions, drain easements, persons with disabilities, enforcement."
+  },
+  {
+    title: "Article VIII — Leasing of Units",
+    text: "Limitation upon leasing, notice of intent to lease, non co-owner compliance, payment of arrearage by tenant, subletting, assignment of leasehold interest, amendment to lease rights."
+  },
+  {
+    title: "Article IX — Mortgages",
+    text: "Notice of mortgage, notice of default, notice of insurance, notice of meetings, acquisition of title by first mortgagee, financial statements, inspection, foreclosure."
+  },
+  {
+    title: "Article X — Amendments",
+    text: "Proposal, meeting to be held, amendments not materially changing bylaws, effective date, costs of amendment, notice copies of amendment."
+  },
+  {
+    title: "Article XI — Definitions",
+    text: "Definitions."
+  },
+  {
+    title: "Article XII — Remedies for Default",
+    text: "Relief available, failure to enforce, rights cumulative, hearing."
+  },
+  {
+    title: "Article XIII — Arbitration",
+    text: "Submission to arbitration, effect of election, preservation of rights."
+  },
+  {
+    title: "Article XIV — Severability",
+    text: "Severability."
+  },
+  {
+    title: "Article XV — Conflicting Provisions",
+    text: "Conflicting provisions."
+  }
+];
+
+function setupBylawsSearch() {
+  const searchInput = document.getElementById("bylawsSearch");
+  const results = document.getElementById("bylawsResults");
+
+  if (!searchInput || !results) return;
+
+  searchInput.addEventListener("input", function () {
+    const query = this.value.toLowerCase().trim();
+
+    if (!query) {
+      results.innerHTML = "";
+      return;
+    }
+
+    const matches = BYLAWS_SEARCH.filter(item =>
+      item.title.toLowerCase().includes(query) ||
+      item.text.toLowerCase().includes(query)
+    );
+
+    results.innerHTML = matches.length
+      ? matches.map(item => `
+          <div class="notice">
+            <strong>${item.title}</strong>
+            <p>${item.text}</p>
+          </div>
+        `).join("")
+      : `<p>No matching bylaw topics found.</p>`;
+  });
+}
+
+setupBylawsSearch();
