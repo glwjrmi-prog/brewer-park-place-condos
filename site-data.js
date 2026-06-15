@@ -330,10 +330,18 @@ const BYLAWS_SEARCH = [
     title: "Article VII — Use and Occupancy Restrictions; Enforcement",
     text: "Establishment of restrictions, drain easements, persons with disabilities, enforcement."
   },
-  {
-    title: "Article VIII — Leasing of Units",
-    text: "Limitation upon leasing, notice of intent to lease, non co-owner compliance, payment of arrearage by tenant, subletting, assignment of leasehold interest, amendment to lease rights."
-  },
+ {
+  title: "Article VIII, Section 1 — Limitation Upon Leasing",
+  text: "lease leasing rent rental tenant landlord occupant"
+},
+{
+  title: "Article VIII, Section 2 — Notice of Intent to Lease",
+  text: "lease notice leasing notification board association"
+},
+{
+  title: "Article VIII, Section 3 — Non-Co-Owner Compliance",
+  text: "tenant renter rules regulations violations compliance"
+},
   {
     title: "Article IX — Mortgages",
     text: "Notice of mortgage, notice of default, notice of insurance, notice of meetings, acquisition of title by first mortgagee, financial statements, inspection, foreclosure."
