@@ -70,7 +70,7 @@ const CONTACTS = [
   {
     group: "Board Members",
     type: "board",
-    role: "HOA Board President",
+    role: "President",
     name: "Bill Brooks",
     phone: "616-822-0024",
     email: "president@bppcondos.org",
