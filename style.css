@@ -224,16 +224,16 @@
       font-weight: 700;
     }
 
-    .button-link {
+   .button-link {
     display: inline-block;
     margin-top: 4px;
     padding: 10px 16px;
     border-radius: 8px;
     background: #17365d;
-    color: #ffffff;
+    color: #ffffff !important;
     border: none;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     transition: background .2s ease, transform .2s ease;
 }
