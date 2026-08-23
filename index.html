@@ -38,10 +38,11 @@
 
 <main>
 
-  <nav aria-label="Main sections">
+    <nav aria-label="Main sections">
     <a href="#pay-dues">Pay Dues</a>
     <a href="#resident-forms">Resident Forms</a>
     <a href="#announcements">Announcements</a>
+    <a href="#policy-advisor">Resident Policy Advisor</a>
     <a href="#documents">Documents</a>
     <a href="#contacts">Contacts</a>
     <a href="#calendar">Calendar</a>
@@ -57,38 +58,47 @@
     <ul id="announcementGrid" class="announcement-list"></ul>
   </section>
 
-  <section id="bylaws">
+   <section id="policy-advisor">
     <div class="section-title">
-      <h2>Bylaws</h2>
-      <p class="section-note">Official community bylaws</p>
+      <h2>Resident Policy Advisor</h2>
+      <p class="section-note">Ask questions about Brewer Park Place policies and responsibilities</p>
     </div>
 
     <div class="card">
-      <h3>Brewer Park Place Condos Bylaws</h3>
-      <p>View the bylaws directly below or download a copy.</p>
+      <h3>Ask a Governing Document Question</h3>
 
       <p>
-        <a class="button-link" href="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/view?usp=sharing" target="_blank">
-          Download Bylaws
-        </a>
+        Ask about maintenance responsibilities, Association and Co-owner
+        responsibilities, Common Elements, rules, modifications, pets, parking,
+        or other Brewer Park Place policy matters.
       </p>
-<input
-  id="bylawsSearch"
-  type="search"
-  placeholder="Search bylaws: Please enter your search term"
-  style="width:100%; padding:14px; font-size:18px; border:1px solid #d9e2ea; border-radius:12px; margin:18px 0;"
->
 
-<div id="bylawsResults" style="margin-bottom:20px;"></div>
-      <iframe
-        src="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/preview"
-        width="100%"
-        height="600px"
-        style="border:1px solid #ccc; border-radius:12px;">
-      </iframe>
+      <textarea
+        id="policyQuestion"
+        placeholder="Example: Who is responsible for repairing or replacing my garage door opener?"
+        style="width:100%; min-height:120px; padding:14px; font-size:16px; border:1px solid #d9e2ea; border-radius:12px; font-family:inherit; resize:vertical;"
+      ></textarea>
+
+      <button
+        id="policyAskButton"
+        type="button"
+        onclick="askResidentPolicyAdvisor()"
+        style="margin-top:14px;"
+      >
+        Ask Resident Policy Advisor
+      </button>
+
+      <div
+        id="policyAnswer"
+        style="display:none; margin-top:22px; padding:20px; background:#f7f9fb; border-left:5px solid #2b6ea6; border-radius:8px; white-space:pre-wrap; line-height:1.6;"
+      ></div>
+
+      <p style="margin-top:20px; font-size:14px; color:#667085;">
+        Official Brewer Park Place governing documents, including the Bylaws,
+        remain available in the Documents section below.
+      </p>
     </div>
   </section>
-
   <section id="community-rules">
     <div class="section-title">
       <h2>Community Rules</h2>
@@ -295,10 +305,27 @@
 
   </div>
 </section>
-  <section id="documents">
+    <section id="documents">
     <div class="section-title">
       <h2>Documents</h2>
-      <p class="section-note">Rules, forms, budgets, and meeting records</p>
+      <p class="section-note">Governing documents, rules, forms, budgets, and meeting records</p>
+    </div>
+
+    <div class="grid" style="margin-bottom:20px;">
+      <article class="card">
+        <h3>Brewer Park Place Bylaws</h3>
+        <p>
+          View the official Brewer Park Place Condominium Bylaws.
+        </p>
+        <a
+          class="button-link"
+          href="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/view?usp=sharing"
+          target="_blank"
+          rel="noopener"
+        >
+          View Bylaws
+        </a>
+      </article>
     </div>
 
     <div id="documentGrid" class="grid"></div>
@@ -445,6 +472,53 @@
 </footer>
 
 <script>
+async function askResidentPolicyAdvisor() {
+  const questionBox = document.getElementById("policyQuestion");
+  const answerBox = document.getElementById("policyAnswer");
+  const askButton = document.getElementById("policyAskButton");
+
+  const question = questionBox.value.trim();
+
+  if (!question) {
+    alert("Please enter a policy question.");
+    return;
+  }
+
+  askButton.disabled = true;
+  askButton.textContent = "Reviewing governing documents...";
+
+  answerBox.style.display = "block";
+  answerBox.textContent = "Searching Brewer Park Place governing documents...";
+
+  try {
+    const response = await fetch(
+      "https://bpp-resident-policy-advisor.glwjrmi.workers.dev/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question })
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "The Policy Advisor could not complete the request.");
+    }
+
+    answerBox.textContent = data.answer || "No answer was returned.";
+
+  } catch (error) {
+    answerBox.textContent =
+      "The Resident Policy Advisor is temporarily unavailable. Please try again later.";
+  } finally {
+    askButton.disabled = false;
+    askButton.textContent = "Ask Resident Policy Advisor";
+  }
+}
+
 document.addEventListener('contextmenu', function(e) {
   e.preventDefault();
 });
