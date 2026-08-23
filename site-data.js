@@ -106,7 +106,7 @@ const CONTACTS = [
     name: "Gordy Wheeler",
     phone: "616-550-9880",
     email: "building@bppcondos.org",
-    notes: notes: "Buildings, building components, repairs and maintenance",,
+    notes: "Buildings, building components, repairs and maintenance",,
     show: "Yes"
   }
 ];
