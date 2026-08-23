@@ -104,7 +104,7 @@ const CONTACTS = [
     type: "management",
     role: "Building Manager",
     name: "Gordy Wheeler",
-    phone: "616-550-9880",
+    phone: "616-446-4001",
     email: "building@bppcondos.org",
     notes: "Buildings, building components, repairs and maintenance",
     show: "Yes"
