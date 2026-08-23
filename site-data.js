@@ -66,7 +66,7 @@ const CONTACTS = [
     name: "Bill Brooks",
     phone: "616-822-0024",
     email: "president@bppcondos.org",
-    notes: "Primary board contact",
+    notes: "Board and Association governance",
     show: "Yes"
   },
   {
@@ -76,7 +76,7 @@ const CONTACTS = [
     name: "Becky Bailey",
     phone: "616-540-9716",
     email: "treasurer@bppcondos.org",
-    notes: "Budget and dues questions",
+    notes: "Budget, dues and financial questions",
     show: "Yes"
   },
   {
@@ -86,7 +86,7 @@ const CONTACTS = [
     name: "Julie Cogswell",
     phone: "616-706-5975",
     email: "secretary@bppcondos.org",
-    notes: "Urgent common-area issues only",
+    notes: "Association records and general correspondence",
     show: "Yes"
   },
   {
@@ -96,21 +96,20 @@ const CONTACTS = [
     name: "Jennifer Brooks",
     phone: "616-291-4681",
     email: "property@bppcondos.org",
-    notes: "Maintenance and compliance",
+    notes: "Grounds, landscaping, streets, driveways and drainage",
     show: "Yes"
   },
   {
     group: "Management / Maintenance",
     type: "management",
-    role: "Building Maintenance",
+    role: "Building Manager",
     name: "Gordy Wheeler",
     phone: "616-550-9880",
     email: "building@bppcondos.org",
-    notes: "Exterior change requests",
+    notes: notes: "Buildings, building components, repairs and maintenance",,
     show: "Yes"
   }
 ];
-
 
 /* =========================
    HELPER FUNCTIONS
