@@ -50,15 +50,7 @@ const DOCUMENTS = [
     notes: "2025–2026 approved HOA budget.",
     status: "Active"
   },
-  {
-    name: "Maintenance Matrix",
-    category: "Forms",
-    audience: "Public",
-    updated: "2026-05-02",
-    link: "https://drive.google.com/file/d/1VrUpWDKYLiDDei8XcdGsJxpOVdybXTXp/view?usp=sharing",
-    notes: "Use to determine owner or HOA responsibility for maintenance.",
-    status: "Active"
-  }
+  
 ];
 
 
