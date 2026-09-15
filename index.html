@@ -4,546 +4,72 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brewer Park Place Condominiums | Community Hub</title>
-
   <link rel="stylesheet" href="style.css?v=5" />
-
   <style>
-    .resident-disclaimer{
-      background:#fff8d6;
-      border:1px solid #e2c96f;
-      padding:12px;
-      margin:15px 0;
-      border-radius:6px;
-      font-size:14px;
-      line-height:1.5;
-    }
+    .resident-disclaimer{background:#fff8d6;border:1px solid #e2c96f;padding:12px;margin:15px 0;border-radius:6px;font-size:14px;line-height:1.5;}
   </style>
 </head>
-
 <body>
-
 <header>
-  <div class="hero">
-    <div>
-      <span class="brand-kicker">Community Hub</span>
-     <h1 id="hoaName">Brewer Park Place Condominiums</h1>
-
-<p id="subtitle">
-  A private community resource for residents and owners.
-</p>
-     
-    </div>
-  </div>
+  <div class="hero"><div><span class="brand-kicker">Community Hub</span><h1 id="hoaName">Brewer Park Place Condominiums</h1><p id="subtitle">A private community resource for residents and owners.</p></div></div>
 </header>
-
 <main>
-
-    <nav aria-label="Main sections">
-    <a href="#pay-dues">Pay Dues</a>
-    <a href="#resident-forms">Resident Forms</a>
-    <a href="#announcements">Announcements</a>
-    <a href="#policy-advisor">Resident Policy Advisor</a>
-    <a href="#documents">Documents</a>
-    <a href="#contacts">Contacts</a>
-    <a href="#calendar">Calendar</a>
-    <a href="#community-map">Community Map</a>
-    <a href="#community-rules">Community Rules</a>
+  <nav aria-label="Main sections">
+    <a href="#pay-dues">Pay Dues</a><a href="#resident-forms">Resident Forms</a><a href="#announcements">Announcements</a><a href="#policy-advisor">Resident Policy Advisor</a><a href="#documents">Documents</a><a href="#contacts">Contacts</a><a href="#calendar">Calendar</a><a href="#community-map">Community Map</a><a href="#community-rules">Community Rules</a>
   </nav>
-
-  <section id="announcements">
-    <div class="section-title">
-      <h2>Announcements</h2>
-      <p class="section-note">Current community updates</p>
-    </div>
-    <ul id="announcementGrid" class="announcement-list"></ul>
-  </section>
-
-   <section id="policy-advisor">
-    <div class="section-title">
-      <h2>Resident Policy Advisor</h2>
-      <p class="section-note">Ask questions about Brewer Park Place policies and responsibilities</p>
-    </div>
-
-    <div class="card">
-      <h3>Ask a Governing Document Question</h3>
-
-      <p>
-        Ask about maintenance responsibilities, Association and Co-owner
-        responsibilities, Common Elements, rules, modifications, pets, parking,
-        or other Brewer Park Place policy matters.
-      </p>
-
-      <textarea
-        id="policyQuestion"
-        placeholder="Example: Who is responsible for repairing or replacing my garage door opener?"
-        style="width:100%; min-height:120px; padding:14px; font-size:16px; border:1px solid #d9e2ea; border-radius:12px; font-family:inherit; resize:vertical;"
-      ></textarea>
-
-                  <button
-        id="policyAskButton"
-        class="button-link"
-        type="button"
-        onclick="askResidentPolicyAdvisor()"
-        style="margin-top:14px;"
-      >
-        Ask Resident Policy Advisor
-      </button>
-
-      <div
-        id="policyAnswer"
-        style="display:none; margin-top:22px; padding:20px; background:#f7f9fb; border-left:5px solid #2b6ea6; border-radius:8px; white-space:pre-wrap; line-height:1.6;"
-      ></div>
-
-      <p style="margin-top:20px; font-size:14px; color:#667085;">
-        Official Brewer Park Place governing documents, including the Bylaws,
-        remain available in the Documents section below.
-      </p>
-    </div>
+  <section id="announcements"><div class="section-title"><h2>Announcements</h2><p class="section-note">Current community updates</p></div><ul id="announcementGrid" class="announcement-list"></ul></section>
+  <section id="policy-advisor">
+    <div class="section-title"><h2>Resident Policy Advisor</h2><p class="section-note">Ask questions about Brewer Park Place policies and responsibilities</p></div>
+    <div class="card"><h3>Ask a Governing Document Question</h3><p>Ask about maintenance responsibilities, Association and Co-owner responsibilities, Common Elements, rules, modifications, pets, parking, or other Brewer Park Place policy matters.</p><textarea id="policyQuestion" placeholder="Example: Who is responsible for repairing or replacing my garage door opener?" style="width:100%; min-height:120px; padding:14px; font-size:16px; border:1px solid #d9e2ea; border-radius:12px; font-family:inherit; resize:vertical;"></textarea><button id="policyAskButton" class="button-link" type="button" onclick="askResidentPolicyAdvisor()" style="margin-top:14px;">Ask Resident Policy Advisor</button><div id="policyAnswer" style="display:none; margin-top:22px; padding:20px; background:#f7f9fb; border-left:5px solid #2b6ea6; border-radius:8px; white-space:pre-wrap; line-height:1.6;"></div><p style="margin-top:20px; font-size:14px; color:#667085;">Official Brewer Park Place governing documents, including the Bylaws, remain available in the Documents section below.</p></div>
   </section>
   <section id="community-rules">
-    <div class="section-title">
-  <h2>Community Rules</h2>
-  <p class="section-note">Searchable rules and regulations</p>
-</div>
-
-<p class="section-note" style="margin-bottom:14px;">
-  Quick-reference summaries are provided for convenience. Please consult the
-  complete Rules & Regulations for the official language.
-</p>
-
-    <div class="card">
-      <input
-        id="rulesSearch"
-        type="search"
-        placeholder="Search rules: parking, pets, decorations, fire pits..."
-        style="width:100%; padding:14px; font-size:18px; border:1px solid #d9e2ea; border-radius:12px; margin-bottom:20px;"
-      >
-
-      <p>
-        <a class="button-link"
-           href="https://drive.google.com/file/d/1xYm-x0zJaUz3wFuI6spm7TD19qVD8xUI/view?usp=sharing"
-           target="_blank">
-           Click here for complete Rules & Regulations
-        </a>
-      </p>
-
-      <div class="rules-section">
-        <h3 class="rules-title">General</h3>
-        <div class="rules-content">
-          <p>No yard sales, garage sales, rummage or estate sales, or auctions are permitted.</p>
-          <p>Co-owners selling units must notify the Board and provide realtor information.</p>
-        </div>
-      </div>
-
-      <div class="rules-section">
-        <h3 class="rules-title">Exterior of Units and Common Areas</h3>
-        <div class="rules-content">
-          <p>No more than three security cameras may be attached to a unit.</p>
-          <p>Wind chimes are prohibited.</p>
-          <p>Trash containers must remain in garages except on trash day.</p>
-          <p>Propane fire tables are allowed if compliant with fire codes.</p>
-        </div>
-      </div>
-
-      <div class="rules-section">
-        <h3 class="rules-title">Parking</h3>
-        <div class="rules-content">
-          <p>Guests should use driveways or guest parking lots.</p>
-          <p>No parking on sidewalks or grass.</p>
-          <p>Garage doors should remain closed except during active use.</p>
-        </div>
-      </div>
-
-      <div class="rules-section">
-        <h3 class="rules-title">Pets</h3>
-        <div class="rules-content">
-          <p>Pets must be leashed and under control outdoors.</p>
-          <p>Residents must immediately clean up after pets.</p>
-          <p>Pet owners must complete pet registration.</p>
-        </div>
-      </div>
-
-      <div class="rules-section">
-        <h3 class="rules-title">Violations and Fines</h3>
-        <div class="rules-content">
-          <p>The Board may levy fines for violations.</p>
-          <p>$100 fines may apply after 30 days.</p>
-          <p>$500 fines may apply after 60 days or repeated violations.</p>
-        </div>
-      </div>
+    <div class="section-title"><h2>Community Rules</h2><p class="section-note">Searchable rules and regulations</p></div><p class="section-note" style="margin-bottom:14px;">Quick-reference summaries are provided for convenience. Please consult the complete Rules & Regulations for the official language.</p>
+    <div class="card"><input id="rulesSearch" type="search" placeholder="Search rules: parking, pets, decorations, fire pits..." style="width:100%; padding:14px; font-size:18px; border:1px solid #d9e2ea; border-radius:12px; margin-bottom:20px;"><p><a class="button-link" href="https://drive.google.com/file/d/1xYm-x0zJaUz3wFuI6spm7TD19qVD8xUI/view?usp=sharing" target="_blank">Click here for complete Rules & Regulations</a></p>
+      <div class="rules-section"><h3 class="rules-title">General</h3><div class="rules-content"><p>No yard sales, garage sales, rummage or estate sales, or auctions are permitted.</p><p>Co-owners selling units must notify the Board and provide realtor information.</p></div></div>
+      <div class="rules-section"><h3 class="rules-title">Exterior of Units and Common Areas</h3><div class="rules-content"><p>No more than three security cameras may be attached to a unit.</p><p>Wind chimes are prohibited.</p><p>Trash containers must remain in garages except on trash day.</p><p>Propane fire tables are allowed if compliant with fire codes.</p></div></div>
+      <div class="rules-section"><h3 class="rules-title">Parking</h3><div class="rules-content"><p>Guests should use driveways or guest parking lots.</p><p>No parking on sidewalks or grass.</p><p>Garage doors should remain closed except during active use.</p></div></div>
+      <div class="rules-section"><h3 class="rules-title">Pets</h3><div class="rules-content"><p>Pets must be leashed and under control outdoors.</p><p>Residents must immediately clean up after pets.</p><p>Pet owners must complete pet registration.</p></div></div>
+      <div class="rules-section"><h3 class="rules-title">Violations and Fines</h3><div class="rules-content"><p>The Board may levy fines for violations.</p><p>$100 fines may apply after 30 days.</p><p>$500 fines may apply after 60 days or repeated violations.</p></div></div>
     </div>
   </section>
-
-  <section id="pay-dues">
-    <div class="section-title">
-      <h2>HOA Payment Options</h2>
-      <p class="section-note">Convenient payment options</p>
-    </div>
-
-    <div class="card">
-      <h3>Drop Box</h3>
-
-      <p>
-        Dues and water invoices, if applicable, are emailed quarterly in January, April, July, and October.
-      </p>
-
-      <p>
-        Make checks payable to:
-        <strong>Brewer Park Place Condominium Association</strong>
-      </p>
-
-      <p>
-        Payments can be placed in the black box located on the mailbox bank near
-        <strong>49 Brewer Park Circle</strong>.
-      </p>
-
-      
-
-      <hr style="margin:24px 0;">
-
-      <h3>Bank Bill Pay</h3>
-
-      <p>
-        Residents may also use their bank’s online bill pay service.
-      </p>
-
-      <p>
-        Make checks payable to:
-        <strong>Brewer Park Place Condominium Association</strong>
-      </p>
-
-      <p>
-        Mailing address: 134 Brewer Park Circle, Grand Rapids, MI 49548
-      </p>
+  <section id="pay-dues"><div class="section-title"><h2>HOA Payment Options</h2><p class="section-note">Convenient payment options</p></div><div class="card"><h3>Drop Box</h3><p>Dues and water invoices, if applicable, are emailed quarterly in January, April, July, and October.</p><p>Make checks payable to: <strong>Brewer Park Place Condominium Association</strong></p><p>Payments can be placed in the black box located on the mailbox bank near <strong>49 Brewer Park Circle</strong>.</p><hr style="margin:24px 0;"><h3>Bank Bill Pay</h3><p>Residents may also use their bank’s online bill pay service.</p><p>Make checks payable to: <strong>Brewer Park Place Condominium Association</strong></p><p>Mailing address: 134 Brewer Park Circle, Grand Rapids, MI 49548</p></div></section>
+  <section id="resident-forms">
+    <div class="section-title"><h2>Resident Forms & Maintenance</h2><p class="section-note">Submit requests, update information, and review maintenance responsibilities</p></div>
+    <div class="grid">
+      <article class="card form-card"><div class="form-icon" aria-hidden="true">🏡</div><h3>Modification Request</h3><p>Planning an exterior modification or an addition that may change the appearance of your unit or property?</p><p>Submit your request for review at least <strong>60 days before beginning work</strong>. Do not begin the project until written approval has been received.</p><a class="button-link form-button" href="https://docs.google.com/forms/d/e/1FAIpQLScdyYmOy1lwykY3Z0DFUYB3VmdHDefVT0Io-OiMzZCds-Iqug/viewform?usp=header" target="_blank" rel="noopener">Open Modification Request</a><p class="form-help">Drawings, photographs, contractor information, permits, or proof of insurance may be requested.</p></article>
+      <article class="card form-card"><div class="form-icon" aria-hidden="true">👤</div><h3>Resident Information Update</h3><p>Use this secure form to submit changes to resident names, telephone numbers, email addresses, or other directory information.</p><a class="button-link form-button" href="https://docs.google.com/forms/d/e/1FAIpQLScCni-2s0RUmHZD7UbjFWbjisVUMGKxMQ0u1I9mauL1jC-TzA/viewform?usp=sharing" target="_blank" rel="noopener">Update Resident Information</a><p class="form-help">Submitted changes are reviewed before the community directory is updated.</p></article>
+      <article class="card form-card"><div class="form-icon" aria-hidden="true">🛠️</div><h3>Maintenance Responsibilities</h3><p>Review the Maintenance Matrix to determine whether a repair or maintenance responsibility belongs to the Association or the individual co-owner.</p><a class="button-link form-button" href="https://drive.google.com/file/d/1VrUpWDKYLiDDei8XcdGsJxpOVdybXTXp/view?usp=sharing" target="_blank" rel="noopener">View Maintenance Matrix</a><p class="form-help"><strong>Building or structural issue?</strong> Contact the Building Manager at <a href="mailto:building@bppcondos.org?subject=Brewer%20Park%20Place%20Building%20Maintenance">building@bppcondos.org</a>.<br><br><strong>Grounds or property issue?</strong> Contact the Property Manager for concerns involving streets, driveways, landscaping, lawns, drainage, or other areas surrounding the buildings.</p></article>
     </div>
   </section>
-<section id="resident-forms">
-  <div class="section-title">
-    <h2>Resident Forms & Maintenance</h2>
-    <p class="section-note">
-      Submit requests, update information, and review maintenance responsibilities
-    </p>
-  </div>
-
-  <div class="grid">
-
-    <article class="card form-card">
-      <div class="form-icon" aria-hidden="true">🏡</div>
-
-      <h3>Modification Request</h3>
-
-      <p>
-        Planning an exterior modification or an addition that may change the
-        appearance of your unit or property?
-      </p>
-
-      <p>
-        Submit your request for review at least
-        <strong>60 days before beginning work</strong>. Do not begin the project
-        until written approval has been received.
-      </p>
-
-      <a
-        class="button-link form-button"
-        href="https://docs.google.com/forms/d/e/1FAIpQLScdyYmOy1lwykY3Z0DFUYB3VmdHDefVT0Io-OiMzZCds-Iqug/viewform?usp=header"
-        target="_blank"
-        rel="noopener"
-      >
-        Open Modification Request
-      </a>
-
-      <p class="form-help">
-        Drawings, photographs, contractor information, permits, or proof of
-        insurance may be requested.
-      </p>
-    </article>
-
-    <article class="card form-card">
-      <div class="form-icon" aria-hidden="true">👤</div>
-
-      <h3>Resident Information Update</h3>
-
-      <p>
-        Use this secure form to submit changes to resident names, telephone
-        numbers, email addresses, or other directory information.
-      </p>
-
-      <a
-        class="button-link form-button"
-        href="https://docs.google.com/forms/d/e/1FAIpQLScCni-2s0RUmHZD7UbjFWbjisVUMGKxMQ0u1I9mauL1jC-TzA/viewform?usp=sharing"
-        target="_blank"
-        rel="noopener"
-      >
-        Update Resident Information
-      </a>
-
-      <p class="form-help">
-        Submitted changes are reviewed before the community directory is updated.
-      </p>
-    </article>
-
-    <article class="card form-card">
-      <div class="form-icon" aria-hidden="true">🛠️</div>
-
-      <h3>Maintenance Responsibilities</h3>
-
-      <p>
-        Review the Maintenance Matrix to determine whether a repair or maintenance
-        responsibility belongs to the Association or the individual co-owner.
-      </p>
-
-      <a
-        class="button-link form-button"
-        href="https://drive.google.com/file/d/1VrUpWDKYLiDDei8XcdGsJxpOVdybXTXp/view?usp=sharing"
-        target="_blank"
-        rel="noopener"
-      >
-        View Maintenance Matrix
-      </a>
-
-      <p class="form-help">
-  <strong>Building or structural issue?</strong>
-  Contact the Building Manager at
-  <a href="mailto:building@bppcondos.org?subject=Brewer%20Park%20Place%20Building%20Maintenance">
-    building@bppcondos.org
-  </a>.
-  <br><br>
-  <strong>Grounds or property issue?</strong>
-  Contact the Property Manager for concerns involving streets, driveways,
-  landscaping, lawns, drainage, or other areas surrounding the buildings.
-</p>
-    </article>
-
-  </div>
-</section>
-    <section id="documents">
-    <div class="section-title">
-      <h2>Documents</h2>
-      <p class="section-note">Governing documents, rules, forms, budgets, and meeting records</p>
-    </div>
-
-    <div class="grid" style="margin-bottom:20px;">
-      <article class="card">
-        <h3>Brewer Park Place Bylaws</h3>
-        <p>
-          View the official Brewer Park Place Condominium Bylaws.
-        </p>
-        <a
-          class="button-link"
-          href="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/view?usp=sharing"
-          target="_blank"
-          rel="noopener"
-        >
-          View Bylaws
-        </a>
-      </article>
-    </div>
-
-    <div id="documentGrid" class="grid"></div>
-  </section>
+  <section id="documents"><div class="section-title"><h2>Documents</h2><p class="section-note">Governing documents, rules, forms, budgets, and meeting records</p></div><div class="grid" style="margin-bottom:20px;"><article class="card"><h3>Brewer Park Place Bylaws</h3><p>View the official Brewer Park Place Condominium Bylaws.</p><a class="button-link" href="https://drive.google.com/file/d/1m_-ugWsVs1j09Rn-tsZ5_aQtZBNSDhpb/view?usp=sharing" target="_blank" rel="noopener">View Bylaws</a></article></div><div id="documentGrid" class="grid"></div></section>
 
   <section id="meeting-minutes">
-    <div class="section-title">
-      <h2>Board Meeting Minutes</h2>
-      <p class="section-note">Monthly meeting records</p>
-    </div>
-
+    <div class="section-title"><h2>Board Meeting Minutes</h2><p class="section-note">Meeting records organized by year</p></div>
     <div class="card">
-      <ul class="announcement-list">
-        <li>
-          <a href="https://drive.google.com/file/d/1KUnZX_1uBzK_K31FCvzOLIOJaQi0rBA9/view?usp=sharing" target="_blank">
-            March 2026 Board Meeting Minutes
-          </a>
-        </li>
-
-        <li>
-          <a href="https://drive.google.com/file/d/18lxhR6MXRfJQtGwbCtFrB0yf-QX0rPBX/view?usp=sharing" target="_blank">
-            April 2026 Board Meeting Minutes
-          </a>
-        </li>
-
-        <li>
-          <a href="https://docs.google.com/document/d/1po4CosWzK6Bg86AyPS6xnonM5_BhkxBDBkWZyHMSghY/edit?usp=sharing">
-            June 2026 Board Meeting Minutes
-          </a>
-        </li>
-
-        <li>
-          <a href="https://docs.google.com/document/d/1TsM4UNgNd5bvSR_8QQvGldtA69pqImwIjs01rmhdcCY/edit?usp=sharing">
-            July 2026 Board Meeting Minutes
-          </a>
-        </li>
-      </ul>
+      <details open>
+        <summary style="cursor:pointer; font-size:1.15rem; font-weight:700; padding:8px 0;">2026</summary>
+        <ul class="announcement-list" style="margin-top:10px;">
+          <li><a href="https://drive.google.com/file/d/1KUnZX_1uBzK_K31FCvzOLIOJaQi0rBA9/view?usp=sharing" target="_blank" rel="noopener">March 2026 Board Meeting Minutes</a></li>
+          <li><a href="https://drive.google.com/file/d/18lxhR6MXRfJQtGwbCtFrB0yf-QX0rPBX/view?usp=sharing" target="_blank" rel="noopener">April 2026 Board Meeting Minutes</a></li>
+          <li><a href="https://docs.google.com/document/d/1po4CosWzK6Bg86AyPS6xnonM5_BhkxBDBkWZyHMSghY/edit?usp=sharing" target="_blank" rel="noopener">June 2026 Board Meeting Minutes</a></li>
+          <li><a href="https://docs.google.com/document/d/1TsM4UNgNd5bvSR_8QQvGldtA69pqImwIjs01rmhdcCY/edit?usp=sharing" target="_blank" rel="noopener">July 2026 Board Meeting Minutes</a></li>
+        </ul>
+      </details>
+      <details><summary style="cursor:pointer; font-size:1.15rem; font-weight:700; padding:8px 0;">2025</summary><p class="section-note" style="margin-left:20px;">Meeting minutes will be added as they become available.</p></details>
+      <details><summary style="cursor:pointer; font-size:1.15rem; font-weight:700; padding:8px 0;">2024</summary><p class="section-note" style="margin-left:20px;">Meeting minutes will be added as they become available.</p></details>
+      <details><summary style="cursor:pointer; font-size:1.15rem; font-weight:700; padding:8px 0;">2023</summary><p class="section-note" style="margin-left:20px;">Meeting minutes will be added as they become available.</p></details>
     </div>
   </section>
 
-  <section id="contacts">
-    <div class="section-title">
-      <h2>Contacts</h2>
-      <p class="section-note">CONTACTS: phone numbers and emails are clickable</p>
-    </div>
-
-    <span id="contactCount" style="display:none;"></span>
-    <div id="contactGroups"></div>
-  </section>
-
-  <section id="calendar">
-    <div class="section-title">
-      <h2>Community Calendar</h2>
-      <p class="section-note">Board meetings, reminders, and community events</p>
-    </div>
-
-    <div class="card">
-      <iframe
-        src="https://calendar.google.com/calendar/embed?src=c05a77765608bfdc1a9a4aa5daaa002c3ac45412b177846ede301ee8cc076ab3%40group.calendar.google.com&ctz=America%2FDetroit&mode=MONTH"
-        style="border:0; width:100%; height:600px; border-radius:12px;"
-        frameborder="0"
-        scrolling="no">
-      </iframe>
-    </div>
-  </section>
-
-  <section id="community-map">
-    <div class="section-title">
-      <h2>Community Map</h2>
-    </div>
-
-    <div class="resident-disclaimer">
-      Community information displayed on this website is intended
-      for resident and authorized community use only.
-      Unauthorized copying, solicitation, harvesting, or redistribution
-      is prohibited.
-    </div>
-
-    <div id="community-map-dashboard">
-      <div class="app">
-
-        <section class="panel">
-          <div class="toolbar">
-            <input id="search" placeholder="Search by name, unit, or street number..." autocomplete="off">
-            <button onclick="clearSearch()">Clear</button>
-          </div>
-
-          <div class="map-wrap" id="mapWrap">
-            <div class="map-inner" id="mapInner">
-              <img src="bpp-map.jpg" alt="Brewer Park Place community map">
-            </div>
-          </div>
-        </section>
-
-        <aside class="panel">
-          <div class="detail" id="detail">
-            <h2>Select a unit</h2>
-            <div class="sub">Click a number on the map or search above.</div>
-          </div>
-
-          <div class="list" id="resultList"></div>
-
-          <div class="footer-note">
-            Please use the link below to submit any changes to your information.
-          </div>
-
-          
-        </aside>
-
-      </div>
-    </div>
-  </section>
-
+  <section id="contacts"><div class="section-title"><h2>Contacts</h2><p class="section-note">CONTACTS: phone numbers and emails are clickable</p></div><span id="contactCount" style="display:none;"></span><div id="contactGroups"></div></section>
+  <section id="calendar"><div class="section-title"><h2>Community Calendar</h2><p class="section-note">Board meetings, reminders, and community events</p></div><div class="card"><iframe src="https://calendar.google.com/calendar/embed?src=c05a77765608bfdc1a9a4aa5daaa002c3ac45412b177846ede301ee8cc076ab3%40group.calendar.google.com&ctz=America%2FDetroit&mode=MONTH" style="border:0; width:100%; height:600px; border-radius:12px;" frameborder="0" scrolling="no"></iframe></div></section>
+  <section id="community-map"><div class="section-title"><h2>Community Map</h2></div><div class="resident-disclaimer">Community information displayed on this website is intended for resident and authorized community use only. Unauthorized copying, solicitation, harvesting, or redistribution is prohibited.</div><div id="community-map-dashboard"><div class="app"><section class="panel"><div class="toolbar"><input id="search" placeholder="Search by name, unit, or street number..." autocomplete="off"><button onclick="clearSearch()">Clear</button></div><div class="map-wrap" id="mapWrap"><div class="map-inner" id="mapInner"><img src="bpp-map.jpg" alt="Brewer Park Place community map"></div></div></section><aside class="panel"><div class="detail" id="detail"><h2>Select a unit</h2><div class="sub">Click a number on the map or search above.</div></div><div class="list" id="resultList"></div><div class="footer-note">Please use the link below to submit any changes to your information.</div></aside></div></div></section>
 </main>
-
-<script src="site-data.js?v=2"></script>
-<script src="map.js"></script>
-<footer class="site-footer">
- 
-
-  <div>
-    General Association contact:
-    <a href="mailto:secretary@bppcondos.org">
-      secretary@bppcondos.org
-    </a>
-  </div>
-
-  <div style="margin-top:14px;">
-    © 2026 Gordy Wheeler. Independent community website created
-    for Brewer Park Place residents. All rights reserved.
-  </div>
-
-  <div class="footer-links">
-    <a href="terms.html">Terms of Use</a> |
-    <a href="privacy.html">Privacy Policy</a>
-  </div>
-
-  <div class="footer-note">
-    Unauthorized copying, reproduction, scraping,
-    or redistribution of website content, maps,
-    graphics, or compiled community data is prohibited.
-  </div>
-</footer>
-
+<script src="site-data.js?v=2"></script><script src="map.js"></script>
+<footer class="site-footer"><div>General Association contact: <a href="mailto:secretary@bppcondos.org">secretary@bppcondos.org</a></div><div style="margin-top:14px;">© 2026 Gordy Wheeler. Independent community website created for Brewer Park Place residents. All rights reserved.</div><div class="footer-links"><a href="terms.html">Terms of Use</a> | <a href="privacy.html">Privacy Policy</a></div><div class="footer-note">Unauthorized copying, reproduction, scraping, or redistribution of website content, maps, graphics, or compiled community data is prohibited.</div></footer>
 <script>
-async function askResidentPolicyAdvisor() {
-  const questionBox = document.getElementById("policyQuestion");
-  const answerBox = document.getElementById("policyAnswer");
-  const askButton = document.getElementById("policyAskButton");
-
-  const question = questionBox.value.trim();
-
-  if (!question) {
-    alert("Please enter a policy question.");
-    return;
-  }
-
-  askButton.disabled = true;
-  askButton.textContent = "Reviewing governing documents...";
-
-  answerBox.style.display = "block";
-  answerBox.textContent = "Searching Brewer Park Place governing documents...";
-
-  try {
-    const response = await fetch(
-      "https://bpp-resident-policy-advisor.glwjrmi.workers.dev/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ question })
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "The Policy Advisor could not complete the request.");
-    }
-
-    answerBox.textContent = data.answer || "No answer was returned.";
-
-  } catch (error) {
-    answerBox.textContent =
-      "The Resident Policy Advisor is temporarily unavailable. Please try again later.";
-  } finally {
-    askButton.disabled = false;
-    askButton.textContent = "Ask Resident Policy Advisor";
-  }
-}
-
-document.addEventListener('contextmenu', function(e) {
-  e.preventDefault();
-});
-
-document.addEventListener('keydown', function(e) {
-  if (
-    e.ctrlKey &&
-    (
-            e.key === 'u' ||
-      e.key === 's'
-    )
-  ) {
-    e.preventDefault();
-  }
-});
+async function askResidentPolicyAdvisor(){const questionBox=document.getElementById("policyQuestion");const answerBox=document.getElementById("policyAnswer");const askButton=document.getElementById("policyAskButton");const question=questionBox.value.trim();if(!question){alert("Please enter a policy question.");return;}askButton.disabled=true;askButton.textContent="Reviewing governing documents...";answerBox.style.display="block";answerBox.textContent="Searching Brewer Park Place governing documents...";try{const response=await fetch("https://bpp-resident-policy-advisor.glwjrmi.workers.dev/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question})});const data=await response.json();if(!response.ok){throw new Error(data.error||"The Policy Advisor could not complete the request.");}answerBox.textContent=data.answer||"No answer was returned.";}catch(error){answerBox.textContent="The Resident Policy Advisor is temporarily unavailable. Please try again later.";}finally{askButton.disabled=false;askButton.textContent="Ask Resident Policy Advisor";}}
+document.addEventListener('contextmenu',function(e){e.preventDefault();});document.addEventListener('keydown',function(e){if(e.ctrlKey&&(e.key==='u'||e.key==='s')){e.preventDefault();}});
 </script>
 <button id="topBtn" onclick="scrollToTop()">↑ Top</button>
 </body>
