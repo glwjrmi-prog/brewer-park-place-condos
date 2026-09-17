@@ -6,13 +6,13 @@
 <title>Exterior Alteration / Modification Request | Brewer Park Place</title>
 <style>
 :root{--blue:#245f8f;--dark:#173a55;--line:#cfd8df;--soft:#f5f8fa;--text:#25313a;--green:#2f6f55}
-*{box-sizing:border-box}body{margin:0;background:#eef3f6;color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.5}.wrap{max-width:920px;margin:30px auto;padding:0 16px}.sheet{background:white;border-radius:14px;box-shadow:0 5px 22px rgba(0,0,0,.09);padding:32px;margin-bottom:22px}h1{margin:0;color:var(--dark);font-size:28px}h2{font-size:18px;color:var(--blue);border-bottom:2px solid var(--blue);padding-bottom:7px;margin-top:30px}p.notice{background:#fff8d9;border-left:5px solid #d7ad32;padding:12px 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}label{display:block;font-weight:700;margin-bottom:5px}input[type=text],input[type=email],input[type=tel],input[type=date],textarea{width:100%;padding:11px;border:1px solid #aebbc5;border-radius:7px;font:inherit}textarea{min-height:92px;resize:vertical}.checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{font-weight:400;display:flex;gap:8px;align-items:flex-start}.cert{background:var(--soft);padding:16px;border-radius:8px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-block;border:0;border-radius:8px;padding:12px 18px;background:var(--blue);color:white;text-decoration:none;font-weight:700;cursor:pointer;font-size:15px}.btn.secondary{background:#667782}.btn.green{background:var(--green)}.help{font-size:13px;color:#5f6c75}.board{background:#f3f5f7;border:1px dashed #aab5bd;padding:18px;border-radius:8px}.status{display:none;margin-top:14px;padding:12px;border-radius:8px;background:#eaf4ee}.back{display:inline-block;margin-bottom:14px;color:var(--blue);font-weight:700;text-decoration:none}@media(max-width:650px){.grid,.checks{grid-template-columns:1fr}.sheet{padding:20px}.full{grid-column:auto}}@media print{body{background:white}.wrap{max-width:none;margin:0;padding:0}.sheet{box-shadow:none;border-radius:0;padding:10px}.actions,.back,.help.save-help{display:none}}
+*{box-sizing:border-box}body{margin:0;background:#eef3f6;color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.5}.wrap{max-width:920px;margin:30px auto;padding:0 16px}.sheet{background:white;border-radius:14px;box-shadow:0 5px 22px rgba(0,0,0,.09);padding:32px;margin-bottom:22px}h1{margin:0;color:var(--dark);font-size:28px}h2{font-size:18px;color:var(--blue);border-bottom:2px solid var(--blue);padding-bottom:7px;margin-top:30px}p.notice{background:#fff8d9;border-left:5px solid #d7ad32;padding:12px 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.full{grid-column:1/-1}label{display:block;font-weight:700;margin-bottom:5px}input[type=text],input[type=email],input[type=tel],input[type=date],textarea{width:100%;padding:11px;border:1px solid #aebbc5;border-radius:7px;font:inherit}textarea{min-height:92px;resize:vertical}.checks{display:grid;grid-template-columns:1fr 1fr;gap:10px}.check{font-weight:400;display:flex;gap:8px;align-items:flex-start}.cert{background:var(--soft);padding:16px;border-radius:8px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.btn{display:inline-block;border:0;border-radius:8px;padding:12px 18px;background:var(--blue);color:white;text-decoration:none;font-weight:700;cursor:pointer;font-size:15px}.btn.secondary{background:#667782}.btn.green{background:var(--green)}.btn:disabled{opacity:.6;cursor:not-allowed}.help{font-size:13px;color:#5f6c75}.board{background:#f3f5f7;border:1px dashed #aab5bd;padding:18px;border-radius:8px}.status{display:none;margin-top:14px;padding:12px;border-radius:8px;background:#eaf4ee}.status.error{background:#fdecec;color:#8a1f1f}.back{display:inline-block;margin-bottom:14px;color:var(--blue);font-weight:700;text-decoration:none}@media(max-width:650px){.grid,.checks{grid-template-columns:1fr}.sheet{padding:20px}.full{grid-column:auto}}@media print{body{background:white}.wrap{max-width:none;margin:0;padding:0}.sheet{box-shadow:none;border-radius:0;padding:10px}.actions,.back,.help.save-help{display:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <a class="back" href="index.html#resident-forms">← Back to Resident Forms</a>
-<form id="requestForm">
+<form id="requestForm" enctype="multipart/form-data">
 <div class="sheet">
 <h1>BREWER PARK PLACE CONDOMINIUM ASSOCIATION</h1>
 <h2 style="margin-top:8px;border:0;padding:0;color:#25313a">EXTERIOR ALTERATION / MODIFICATION REQUEST</h2>
@@ -20,44 +20,44 @@
 
 <h2>CO-OWNER INFORMATION</h2>
 <div class="grid">
-<div class="full"><label for="owners">Co-owner Name(s)</label><input id="owners" name="owners" type="text" required></div>
-<div><label for="unit">Unit #</label><input id="unit" name="unit" type="text" required></div>
-<div><label for="dateSubmitted">Date Submitted</label><input id="dateSubmitted" name="dateSubmitted" type="date" required></div>
-<div><label for="phone">Phone</label><input id="phone" name="phone" type="tel" required></div>
-<div><label for="email">Email</label><input id="email" name="email" type="email" required></div>
+<div class="full"><label for="owners">Co-owner Name(s)</label><input id="owners" name="fi-sender-fullName" type="text" required></div>
+<div><label for="unit">Unit #</label><input id="unit" name="fi-text-unit" type="text" required></div>
+<div><label for="dateSubmitted">Date Submitted</label><input id="dateSubmitted" name="fi-date-dateSubmitted" type="date" required></div>
+<div><label for="phone">Phone</label><input id="phone" name="fi-sender-phone" type="tel" required></div>
+<div><label for="email">Email</label><input id="email" name="fi-sender-email" type="email" required></div>
 </div>
 
 <h2>PROPOSED ALTERATION / MODIFICATION</h2>
 <div class="grid">
-<div class="full"><label for="request">What are you requesting permission to install, change, add, remove, or modify?</label><textarea id="request" name="request" required></textarea></div>
-<div class="full"><label for="location">Location of proposed work</label><input id="location" name="location" type="text" required></div>
-<div class="full"><label for="description">Description of proposed work</label><textarea id="description" name="description" required></textarea></div>
-<div><label for="manufacturer">Manufacturer / Model (if applicable)</label><input id="manufacturer" name="manufacturer" type="text"></div>
-<div><label for="finish">Color / Finish (if applicable)</label><input id="finish" name="finish" type="text"></div>
-<div><label for="contractor">Installer / Contractor (if applicable)</label><input id="contractor" name="contractor" type="text"></div>
-<div><label for="workDate">Proposed Installation / Work Date</label><input id="workDate" name="workDate" type="date"></div>
+<div class="full"><label for="request">What are you requesting permission to install, change, add, remove, or modify?</label><textarea id="request" name="fi-text-request" required></textarea></div>
+<div class="full"><label for="location">Location of proposed work</label><input id="location" name="fi-text-location" type="text" required></div>
+<div class="full"><label for="description">Description of proposed work</label><textarea id="description" name="fi-text-description" required></textarea></div>
+<div><label for="manufacturer">Manufacturer / Model (if applicable)</label><input id="manufacturer" name="fi-text-manufacturerModel" type="text"></div>
+<div><label for="finish">Color / Finish (if applicable)</label><input id="finish" name="fi-text-colorFinish" type="text"></div>
+<div><label for="contractor">Installer / Contractor (if applicable)</label><input id="contractor" name="fi-text-installerContractor" type="text"></div>
+<div><label for="workDate">Proposed Installation / Work Date</label><input id="workDate" name="fi-date-proposedWorkDate" type="date"></div>
 </div>
 
 <h2>SUPPORTING INFORMATION</h2>
 <p>Attach information applicable to the request. Check the items included with this application:</p>
 <div class="checks">
-<label class="check"><input type="checkbox" name="support" value="Photo of existing area"> Photo of existing area</label>
-<label class="check"><input type="checkbox" name="support" value="Photo/drawing/example of proposed alteration"> Photo/drawing/example of proposed alteration</label>
-<label class="check"><input type="checkbox" name="support" value="Manufacturer/product information"> Manufacturer/product information</label>
-<label class="check"><input type="checkbox" name="support" value="Dimensions/specifications"> Dimensions/specifications</label>
-<label class="check"><input type="checkbox" name="support" value="Installation instructions"> Installation instructions</label>
-<label class="check"><input type="checkbox" name="support" value="Contractor information"> Contractor information</label>
-<label class="check"><input type="checkbox" name="support" value="Permit/code information"> Permit/code information, if required</label>
-<label class="check"><input type="checkbox" name="support" value="Other supporting material"> Other supporting material</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Photo of existing area"> Photo of existing area</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Photo/drawing/example of proposed alteration"> Photo/drawing/example of proposed alteration</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Manufacturer/product information"> Manufacturer/product information</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Dimensions/specifications"> Dimensions/specifications</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Installation instructions"> Installation instructions</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Contractor information"> Contractor information</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Permit/code information"> Permit/code information, if required</label>
+<label class="check"><input type="checkbox" name="fi-checkbox-support[]" value="Other supporting material"> Other supporting material</label>
 </div>
-<p><strong>Accessibility accommodation or modification?</strong> <label class="check" style="display:inline-flex;margin-left:10px"><input type="radio" name="accessibility" value="No" checked> No</label> <label class="check" style="display:inline-flex;margin-left:10px"><input type="radio" name="accessibility" value="Yes"> Yes</label></p>
-<div><label for="attachments">Supporting files</label><input id="attachments" name="attachments" type="file" multiple accept="image/*,.pdf,.doc,.docx"><div class="help">Photos, drawings, product information, specifications, permits, or contractor documents may be attached.</div></div>
+<p><strong>Accessibility accommodation or modification?</strong> <label class="check" style="display:inline-flex;margin-left:10px"><input type="radio" name="fi-radio-accessibility" value="No" checked> No</label> <label class="check" style="display:inline-flex;margin-left:10px"><input type="radio" name="fi-radio-accessibility" value="Yes"> Yes</label></p>
+<div><label for="attachments">Supporting files</label><input id="attachments" name="fi-file-attachments[]" type="file" multiple accept="image/*,.pdf,.doc,.docx"><div class="help">Photos, drawings, product information, specifications, permits, or contractor documents may be attached.</div></div>
 
 <h2>CO-OWNER CERTIFICATION</h2>
 <div class="cert">
 <p>I/we certify that the information submitted is accurate and complete, understand that no work may begin before written Board approval, and agree that any approved work will be performed in accordance with the Condominium Documents and any conditions stated in the Board's written approval.</p>
-<label class="check"><input id="certify" type="checkbox" required> I/we acknowledge and agree to the certification above.</label>
-<div class="grid" style="margin-top:14px"><div><label for="signature">Co-owner Signature (type full name)</label><input id="signature" name="signature" type="text" required></div><div><label for="signatureDate">Date</label><input id="signatureDate" name="signatureDate" type="date" required></div></div>
+<label class="check"><input id="certify" name="fi-checkbox-certification" value="Acknowledged" type="checkbox" required> I/we acknowledge and agree to the certification above.</label>
+<div class="grid" style="margin-top:14px"><div><label for="signature">Co-owner Signature (type full name)</label><input id="signature" name="fi-text-signature" type="text" required></div><div><label for="signatureDate">Date</label><input id="signatureDate" name="fi-date-signatureDate" type="date" required></div></div>
 </div>
 
 <h2>CO-OWNER ACKNOWLEDGMENT</h2>
@@ -72,8 +72,8 @@
 <li>Approved exterior alterations may be subject to removal and restoration requirements upon transfer of ownership or when the alteration becomes obsolete, as provided by the Condominium Documents.</li>
 <li>Board approval does not constitute a warranty or representation by the Association regarding the product, contractor, installation, structural suitability, code compliance, or performance of the alteration.</li>
 </ol>
-<label class="check"><input id="acknowledge" type="checkbox" required> I/we have read and acknowledge the statements above.</label>
-<div class="grid" style="margin-top:14px"><div><label for="initials">Co-owner Initials</label><input id="initials" name="initials" type="text" required></div><div><label for="ackDate">Date</label><input id="ackDate" name="ackDate" type="date" required></div></div>
+<label class="check"><input id="acknowledge" name="fi-checkbox-acknowledgment" value="Acknowledged" type="checkbox" required> I/we have read and acknowledge the statements above.</label>
+<div class="grid" style="margin-top:14px"><div><label for="initials">Co-owner Initials</label><input id="initials" name="fi-text-initials" type="text" required></div><div><label for="ackDate">Date</label><input id="ackDate" name="fi-date-acknowledgmentDate" type="date" required></div></div>
 
 <h2>BOARD DECISION — ASSOCIATION USE ONLY</h2>
 <div class="board"><strong>This section is completed by the Brewer Park Place Board.</strong><p>☐ APPROVED AS SUBMITTED &nbsp; ☐ APPROVED WITH CONDITIONS &nbsp; ☐ DENIED &nbsp; ☐ ADDITIONAL INFORMATION REQUIRED</p><p>Conditions / Comments / Reason for Decision:</p><br><p>Board Member: ____________________ Signature: ____________________ Date: __________</p><p>Board Member: ____________________ Signature: ____________________ Date: __________</p><p><strong>Association Record:</strong> Date decision provided to Co-owner: __________ &nbsp; Recorded in Unit File: ☐ Yes &nbsp; Recorded by: __________</p></div>
@@ -83,22 +83,49 @@
 <button type="button" class="btn secondary" onclick="saveDraft()">Save Draft on This Device</button>
 <button type="button" class="btn" onclick="window.print()">Print / Save as PDF</button>
 <a class="btn secondary" href="BPP_Exterior_Alteration_Modification_Request.pdf" target="_blank" rel="noopener">Download Blank Form</a>
-<button type="submit" class="btn green">Review Request</button>
+<button id="submitBtn" type="submit" class="btn green">Submit Request</button>
 </div>
-<p class="help save-help">Your draft is saved only in this browser. The form is not submitted to the Association until the email-submission service is connected.</p>
+<p class="help save-help">You may save a draft on this device or print/save a copy before submitting. Supporting files will be sent with the request.</p>
 <div id="status" class="status"></div>
 </div>
 </form>
 </div>
+<script src="https://forminit.com/sdk/v1/forminit.js"></script>
 <script>
 const form=document.getElementById('requestForm');
 const statusBox=document.getElementById('status');
+const submitBtn=document.getElementById('submitBtn');
+const forminit=new Forminit();
+const FORM_ID='hh8ulwlzk26';
 const today=new Date().toISOString().slice(0,10);
 ['dateSubmitted','signatureDate','ackDate'].forEach(id=>{const el=document.getElementById(id);if(el&&!el.value)el.value=today;});
-function saveDraft(){const data={};new FormData(form).forEach((v,k)=>{if(v instanceof File)return;if(data[k])data[k]=[].concat(data[k],v);else data[k]=v;});localStorage.setItem('bppModificationDraft',JSON.stringify(data));statusBox.style.display='block';statusBox.textContent='Draft saved on this device.';}
+function saveDraft(){const data={};new FormData(form).forEach((v,k)=>{if(v instanceof File)return;if(data[k])data[k]=[].concat(data[k],v);else data[k]=v;});localStorage.setItem('bppModificationDraft',JSON.stringify(data));statusBox.classList.remove('error');statusBox.style.display='block';statusBox.textContent='Draft saved on this device. Attachments are not stored in the draft and must be selected again before submitting.';}
 function restoreDraft(){try{const data=JSON.parse(localStorage.getItem('bppModificationDraft')||'null');if(!data)return;Object.entries(data).forEach(([k,v])=>{const vals=[].concat(v);document.querySelectorAll(`[name="${k}"]`).forEach(el=>{if(el.type==='checkbox'||el.type==='radio')el.checked=vals.includes(el.value);else el.value=vals[0]||'';});});}catch(e){}}
 restoreDraft();
-form.addEventListener('submit',e=>{e.preventDefault();if(!form.reportValidity())return;saveDraft();statusBox.style.display='block';statusBox.innerHTML='<strong>Your request is complete and ready for submission.</strong><br>The secure email-delivery connection to building@bppcondos.org is the next step. For now, use “Print / Save as PDF” to keep a completed copy.';statusBox.scrollIntoView({behavior:'smooth',block:'center'});});
+form.addEventListener('submit',async e=>{
+ e.preventDefault();
+ if(!form.reportValidity())return;
+ submitBtn.disabled=true;
+ submitBtn.textContent='Submitting…';
+ statusBox.classList.remove('error');
+ statusBox.style.display='block';
+ statusBox.textContent='Submitting your request to Brewer Park Place…';
+ statusBox.scrollIntoView({behavior:'smooth',block:'center'});
+ try{
+   const formData=new FormData(form);
+   const {data,error}=await forminit.submit(FORM_ID,formData);
+   if(error)throw new Error(error.message||'The request could not be submitted.');
+   localStorage.removeItem('bppModificationDraft');
+   statusBox.classList.remove('error');
+   statusBox.innerHTML='<strong>Your request was submitted successfully.</strong><br>Brewer Park Place has been notified at building@bppcondos.org. You may use “Print / Save as PDF” above to keep a copy for your records.';
+ }catch(error){
+   statusBox.classList.add('error');
+   statusBox.innerHTML='<strong>Your request was not submitted.</strong><br>'+(error.message||'Please try again. Your entries remain on this page.');
+ }finally{
+   submitBtn.disabled=false;
+   submitBtn.textContent='Submit Request';
+ }
+});
 </script>
 </body>
 </html>
