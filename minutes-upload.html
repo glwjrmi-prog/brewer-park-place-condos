@@ -22,18 +22,17 @@
     .upload-main button:disabled{opacity:.5;cursor:default;transform:none}
     .upload-main .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:14px 0}
     .upload-main .note{font-size:16px;color:#536476}
-    .upload-main .setup-summary{cursor:pointer;font-size:22px;font-weight:700;color:#1f3a5f}
-    .upload-main textarea{font:14px/1.5 monospace;min-height:160px;resize:vertical}
+    .upload-main summary{cursor:pointer;font-size:20px;font-weight:700;color:#1f3a5f}
     .upload-main code{overflow-wrap:anywhere}
     .upload-main .status{border-left:5px solid #b78620}
     .upload-main .status.connected{border-left-color:#2f6b57}
     .upload-main [hidden]{display:none!important}
     @media(max-width:650px){.upload-fields{grid-template-columns:1fr}.upload-header{padding:24px 16px}}
-    @media print{header,footer,.actions,#oneTimeSetup{display:none}.upload-main{padding:0}.card{box-shadow:none;break-inside:avoid}}
+    @media print{header,footer,.actions{display:none}.upload-main{padding:0}.card{box-shadow:none;break-inside:avoid}}
   </style>
-  <script defer src="minutes-config.js?v=1"></script>
-  <script defer src="minutes.js?v=1"></script>
-  <script defer src="minutes-upload.js?v=1"></script>
+  <script defer src="minutes-config.js?v=2"></script>
+  <script defer src="minutes.js?v=2"></script>
+  <script defer src="minutes-upload.js?v=2"></script>
 </head>
 <body>
 <header class="upload-header">
@@ -46,17 +45,17 @@
 <main class="upload-main">
   <p><a href="index.html#meeting-minutes">← Back to Board Meeting Minutes</a></p>
   <div id="connectionStatus" class="card status" role="status" aria-live="polite">
-    The one-time Google connection is still pending. Complete the setup below before using automatic publishing.
+    Upload approved PDFs to the website's minutes folder. The website organizes them by year.
   </div>
   <section class="card">
     <h2>After each meeting</h2>
     <ol>
-      <li><strong>Use the finished, approved minutes.</strong> Keep the clean formatting used for the existing minutes. A PDF preserves the appearance when residents open or print it. Google Docs are also supported.</li>
-      <li><strong>Name the file with the meeting date.</strong> Use the helper below, for example <code>2026-10-15 - Board Meeting Minutes.pdf</code>. A Google Doc uses the same name without <code>.pdf</code>.</li>
-      <li><strong>Put the file in its year folder.</strong> Open the folder below. Upload a PDF with <strong>New → File upload</strong>, or drag it into the Drive folder. A finished Google Doc can be moved into the same folder.</li>
+      <li><strong>Save the finished, approved minutes as a PDF.</strong> Use the clean formatting used for the existing minutes. In Word, choose <strong>File → Save As → PDF</strong>. In Google Docs, choose <strong>File → Download → PDF Document</strong>.</li>
+      <li><strong>Name the PDF with the meeting date.</strong> Use the helper below, for example <code>2026-10-15 - Board Meeting Minutes.pdf</code>. Use the date the meeting took place.</li>
+      <li><strong>Upload and save it.</strong> Click <strong>Upload Finished Minutes</strong> below. On GitHub, click <strong>choose your files</strong> and select the named PDF. Leave <strong>Commit directly to the main branch</strong> selected, then click <strong>Commit changes</strong> at the bottom.</li>
     </ol>
-    <p>Once the connection is active, the website adds the link under the correct year. Allow about a minute, then refresh the website.</p>
-    <p class="note">Use this folder only for minutes ready to be viewed on the website. It is not a drafts folder. Uploading preserves the document you provide; it does not reformat its contents.</p>
+    <p>The website adds the link under the correct year automatically. Allow up to 10 minutes, then refresh <a href="index.html#meeting-minutes">Board Meeting Minutes</a> to check it.</p>
+    <p class="note">The PDF keeps the formatting of the document you provide. Uploading does not edit or reformat the minutes.</p>
   </section>
   <section class="card">
     <h2>Build the file name</h2>
@@ -68,40 +67,32 @@
     <input id="fileName" readonly placeholder="Choose the meeting date above">
     <div class="actions">
       <button class="button-link" id="copyFileName" type="button" disabled>Copy File Name</button>
-      <a class="button-link" id="uploadFolder" href="https://drive.google.com/drive/folders/1GQAVaDYlEHxyl3Iucs581t9BhdinhKSx" target="_blank" rel="noopener">Open 2026 Upload Folder</a>
-      <a href="https://drive.google.com/drive/folders/1A4jRPjnJcXYHwkV1XAqLSlzvLxQOmV_n" target="_blank" rel="noopener">All year folders</a>
+      <a class="button-link" id="uploadFolder" href="https://github.com/glwjrmi-prog/brewer-park-place-condos/upload/main/minutes" target="_blank" rel="noopener">Upload Finished Minutes</a>
     </div>
     <p id="nameStatus" class="note" role="status" aria-live="polite"></p>
-    <p class="note">Sign in to Drive with <strong>building@bppcondos.org</strong> to upload. Anyone granted editor access to this folder can also upload; website visitors have viewing access.</p>
+    <p class="note">Sign in to GitHub as <strong>glwjrmi-prog</strong> if prompted. Residents do not need to sign in to read the minutes.</p>
+    <details>
+      <summary>Need help naming your PDF?</summary>
+      <p>Choose the date and meeting type above, then choose your finished PDF here. <strong>Save Named PDF Copy</strong> downloads an identical copy with the correct name. Upload that copy to GitHub.</p>
+      <label for="finishedPdf">Finished, approved PDF</label>
+      <input id="finishedPdf" type="file" accept=".pdf,application/pdf">
+      <div class="actions"><button class="button-link" id="saveNamedPdf" type="button" disabled>Save Named PDF Copy</button></div>
+      <p id="pdfStatus" class="note" role="status" aria-live="polite"></p>
+    </details>
+    <p class="note"><strong>Only upload minutes approved for public viewing.</strong> This website and its upload folder are public. Keep drafts and confidential material elsewhere.</p>
   </section>
   <section class="card">
     <h2>Keep these instructions handy</h2>
     <p>Bookmark this page. You can also open it from <strong>Upload Meeting Minutes</strong> in the website footer.</p>
-    <p>For a new year, create a folder named with its four-digit year inside <strong>BPP Approved Board Minutes</strong>. The website will recognize it automatically.</p>
-    <p class="note">The existing meeting-minute links remain available. Only new minutes need to use this upload folder.</p>
+    <p>Use the same upload button for every meeting and every year. You do not need to edit the website or ask Codex to add each new link.</p>
   </section>
   <section class="card">
-    <details id="oneTimeSetup" open>
-      <summary class="setup-summary">One-time Google connection</summary>
-      <p>This setup is needed once. After it is connected, use the three meeting steps above.</p>
-      <ol>
-        <li>Open <a href="https://drive.google.com/drive/folders/1A4jRPjnJcXYHwkV1XAqLSlzvLxQOmV_n" target="_blank" rel="noopener">BPP Approved Board Minutes</a>. Choose <strong>Share → General access → Anyone with the link → Viewer</strong>, then save. This sets viewing access for finished minutes placed here.</li>
-        <li>Open <a href="https://script.google.com/home" target="_blank" rel="noopener">Google Apps Script</a> using <strong>building@bppcondos.org</strong>. Click <strong>New project</strong> and name it <strong>BPP Minutes Publisher</strong>.</li>
-        <li>In <strong>Code.gs</strong>, replace the starter code with the script below. Use <strong>Copy Script</strong> to copy it, then save.</li>
-        <li>Open <strong>Project Settings</strong>, enable <strong>Show “appsscript.json” manifest file in editor</strong>, and return to the editor. Replace <strong>appsscript.json</strong> with the manifest below and save. It requests read-only Drive access.</li>
-        <li>Choose <strong>Deploy → New deployment → Web app</strong>. Set <strong>Execute as</strong> to <strong>Me</strong> and <strong>Who has access</strong> to <strong>Anyone</strong>. Click <strong>Deploy</strong> and complete Google's authorization for your account.</li>
-        <li>Copy the <strong>Web app URL</strong> ending in <code>/exec</code>. Test it below, then send that URL to Codex once to finish the website connection.</li>
-      </ol>
-      <p class="note">The script reads this dedicated folder and its year folders. It lists publicly readable PDFs and Google Docs with a valid meeting-date file name. It does not change documents, sharing, or other Drive folders.</p>
-      <div class="actions"><button class="button-link" id="copyScript" type="button">Copy Script</button><a href="minutes-publisher/Code.gs" download>Download script</a></div>
-      <label for="scriptCode">Code.gs</label><textarea id="scriptCode" readonly spellcheck="false" aria-label="Minutes publisher script">Loading script…</textarea>
-      <div class="actions"><button class="button-link" id="copyManifest" type="button">Copy Manifest</button><a href="minutes-publisher/appsscript.json" download>Download manifest</a></div>
-      <label for="manifestCode">appsscript.json</label><textarea id="manifestCode" readonly spellcheck="false" aria-label="Read-only Drive manifest">Loading manifest…</textarea>
-      <p id="codeStatus" class="note" role="status" aria-live="polite"></p>
-      <label for="webAppUrl">Web app URL</label>
-      <input id="webAppUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
-      <div class="actions"><button class="button-link" id="testConnection" type="button">Test Connection</button></div>
-      <p id="testStatus" class="note" role="status" aria-live="polite"></p>
+    <details>
+      <summary>If something needs correcting</summary>
+      <p><strong>The new link is missing:</strong> wait up to 10 minutes, refresh the website, and check that the file is a PDF named with a valid meeting date. Click <a id="viewFiles" href="https://github.com/glwjrmi-prog/brewer-park-place-condos/tree/main/minutes" target="_blank" rel="noopener">View Uploaded Files</a> to confirm that GitHub saved it in the minutes folder.</p>
+      <p><strong>Replace a PDF:</strong> upload the corrected PDF with the exact same file name, then click <strong>Commit changes</strong>. The existing link will open the corrected version after the website publishes.</p>
+      <p><strong>Wrong date or file name:</strong> save a correctly named PDF and upload it. In <strong>View Uploaded Files</strong>, open the incorrectly named file, choose <strong>Delete file</strong> from its menu, and commit that deletion.</p>
+      <p class="note">Browser uploads must be smaller than 25 MiB. Deleted or replaced files can still have earlier versions in GitHub's history.</p>
     </details>
   </section>
 </main>

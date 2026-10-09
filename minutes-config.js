@@ -1,10 +1,6 @@
 // One-time publishing connection. Uploading minutes never requires editing this file.
 window.BPP_MINUTES_CONFIG = Object.freeze({
-  endpoint: '',
-  accountEmail: 'building@bppcondos.org',
-  folderUrl: 'https://drive.google.com/drive/folders/1A4jRPjnJcXYHwkV1XAqLSlzvLxQOmV_n',
-  yearFolders: Object.freeze({
-    '2026': 'https://drive.google.com/drive/folders/1GQAVaDYlEHxyl3Iucs581t9BhdinhKSx',
-    '2027': 'https://drive.google.com/drive/folders/1J4znDvHmVCs5hwirFJpQWnsVo-emHa9m'
-  })
+  feedUrl: 'https://glwjrmi-prog.github.io/brewer-park-place-condos/minutes-feed.json',
+  uploadUrl: 'https://github.com/glwjrmi-prog/brewer-park-place-condos/upload/main/minutes',
+  filesUrl: 'https://github.com/glwjrmi-prog/brewer-park-place-condos/tree/main/minutes'
 });

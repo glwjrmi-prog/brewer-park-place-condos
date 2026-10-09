@@ -1,0 +1,17 @@
+---
+layout: null
+---
+{
+  "schemaVersion": 2,
+  "files": [
+    {%- assign separator = "" -%}
+    {%- for file in site.static_files -%}
+      {%- assign folder = file.path | slice: 0, 9 -%}
+      {%- assign extension = file.extname | downcase -%}
+      {%- if folder == "/minutes/" and extension == ".pdf" -%}
+        {{ separator }}{{ file.path | jsonify }}
+        {%- assign separator = "," -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ]
+}

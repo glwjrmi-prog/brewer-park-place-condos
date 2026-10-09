@@ -2,6 +2,9 @@
   'use strict';
   const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
+  const SITE_ROOT = 'https://glwjrmi-prog.github.io/brewer-park-place-condos/';
+  const FEED_URL = SITE_ROOT + 'minutes-feed.json';
+  const CACHE_KEY = 'bpp-published-minutes-v2';
 
   function isValidDate(value) {
     if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
@@ -12,13 +15,37 @@
       date.getUTCMonth() === parts[1] - 1 && date.getUTCDate() === parts[2];
   }
 
-  function safeDriveUrl(value) {
+  function minuteFromPath(value) {
+    if (typeof value !== 'string' || value.length > 500 || /[\\\u0000-\u001f\u007f]/.test(value)) return null;
+    const parts = value.split('/');
+    if (parts[0] !== '' || parts[1] !== 'minutes' ||
+        (parts.length !== 3 && parts.length !== 4)) return null;
+    const folderYear = parts.length === 4 ? parts[2] : null;
+    if (folderYear !== null && !/^20\d{2}$/.test(folderYear)) return null;
+    const match = /^(20\d{2}-\d{2}-\d{2})\s+[-–—]\s+(.+)\.pdf$/i.exec(parts[parts.length - 1]);
+    if (!match || !isValidDate(match[1]) ||
+        (folderYear !== null && folderYear !== match[1].slice(0, 4))) return null;
+    const description = match[2].trim();
+    if (!description || description.length > 150 || /\bdraft\b/i.test(description)) return null;
+    const date = match[1].split('-').map(Number);
+    return {
+      year: date[0], date: match[1],
+      title: MONTHS[date[1] - 1] + ' ' + date[2] + ', ' + date[0] + ' — ' + description,
+      url: SITE_ROOT + parts.slice(1).map(encodeURIComponent).join('/')
+    };
+  }
+
+  function safeMinuteUrl(value) {
     if (typeof value !== 'string' || value.length > 2000) return null;
     try {
       const url = new URL(value);
-      if (url.protocol !== 'https:' || url.username || url.password ||
-          !['drive.google.com', 'docs.google.com'].includes(url.hostname)) return null;
-      return url.href;
+      if (url.protocol !== 'https:' || url.username || url.password || url.port) return null;
+      if (['drive.google.com', 'docs.google.com'].includes(url.hostname)) return url.href;
+      if (url.origin !== new URL(SITE_ROOT).origin || url.search || url.hash) return null;
+      const sitePath = new URL(SITE_ROOT).pathname.slice(0, -1);
+      if (!url.pathname.startsWith(sitePath + '/minutes/')) return null;
+      const minute = minuteFromPath(decodeURIComponent(url.pathname.slice(sitePath.length)));
+      return minute && minute.url === url.href ? url.href : null;
     } catch (error) {
       return null;
     }
@@ -27,9 +54,10 @@
   function normalizeMinute(item) {
     if (!item || !isValidDate(item.date) || Number(item.year) !== Number(item.date.slice(0, 4)) ||
         typeof item.title !== 'string' || !item.title.trim() || item.title.length > 220) return null;
-    const url = safeDriveUrl(item.url);
+    const url = safeMinuteUrl(item.url);
     if (!url) return null;
-    const urlId = /\/d\/([A-Za-z0-9_-]+)/.exec(url);
+    const urlId = ['drive.google.com', 'docs.google.com'].includes(new URL(url).hostname) ?
+      /\/d\/([A-Za-z0-9_-]+)/.exec(url) : null;
     const id = urlId ? urlId[1] : url;
     return { id: id, year: Number(item.year), date: item.date, title: item.title.trim(), url: url };
   }
@@ -77,9 +105,11 @@
       if (!groups.has(item.year)) groups.set(item.year, []);
       groups.get(item.year).push(item);
     });
+    let firstYear = true;
     groups.forEach(function (minutes, year) {
       const details = document.createElement('details');
-      details.open = openYears.has(year);
+      details.open = openYears.has(year) || firstYear;
+      firstYear = false;
       const summary = document.createElement('summary');
       summary.textContent = String(year);
       summary.style.cssText = 'cursor:pointer;font-size:1.15rem;font-weight:700;padding:8px 0;';
@@ -102,80 +132,64 @@
     container.replaceChildren(fragment);
   }
 
-  function endpointUrl(value) {
+  async function fetchMinutes(endpoint, timeoutMs) {
+    if (endpoint !== FEED_URL) throw new Error('The minutes listing is not configured.');
+    const controller = new global.AbortController();
+    const timer = global.setTimeout(function () { controller.abort(); }, timeoutMs || 15000);
     try {
-      const url = new URL(value);
-      const path = /^\/(?:macros\/s|a\/macros\/[A-Za-z0-9.-]+\/s)\/[A-Za-z0-9_-]+\/exec$/;
-      return url.protocol === 'https:' && url.hostname === 'script.google.com' &&
-        !url.username && !url.password && path.test(url.pathname) ? url : null;
-    } catch (error) {
-      return null;
+      const response = await global.fetch(endpoint, {
+        credentials: 'omit', cache: 'no-cache', referrerPolicy: 'no-referrer', signal: controller.signal
+      });
+      if (!response.ok) throw new Error('The minutes listing could not be loaded.');
+      const payload = await response.json();
+      if (!payload || payload.schemaVersion !== 2 || !Array.isArray(payload.files) ||
+          payload.files.length > 1000 || !payload.files.every(function (file) { return typeof file === 'string'; })) {
+        throw new Error('The minutes listing is invalid.');
+      }
+      return {
+        minutes: payload.files.map(minuteFromPath).filter(Boolean),
+        skippedFiles: payload.files.filter(function (file) { return !minuteFromPath(file); }).length
+      };
+    } finally {
+      global.clearTimeout(timer);
     }
   }
 
-  function fetchMinutes(endpoint, timeoutMs) {
-    return new Promise(function (resolve, reject) {
-      const url = endpointUrl(endpoint);
-      if (!url) {
-        reject(new Error('Publishing connection is not configured.'));
-        return;
-      }
-      const callback = 'bppMinutesCallback_' + Date.now() + '_' + Math.random().toString(36).slice(2);
-      const script = global.document.createElement('script');
-      let settled = false;
-      let timer;
-      function finish(error, payload) {
-        if (settled) return;
-        settled = true;
-        global.clearTimeout(timer);
-        delete global[callback];
-        script.remove();
-        if (error) reject(error);
-        else resolve(payload);
-      }
-      global[callback] = function (payload) {
-        if (!payload || payload.schemaVersion !== 1 || payload.ok !== true ||
-            !Array.isArray(payload.minutes) || payload.minutes.length > 1000) {
-          finish(new Error('New minutes could not be loaded.'));
-        } else {
-          finish(null, payload);
-        }
-      };
-      url.searchParams.set('callback', callback);
-      script.src = url.href;
-      script.async = true;
-      script.referrerPolicy = 'no-referrer';
-      script.onerror = function () { finish(new Error('New minutes could not be loaded.')); };
-      timer = global.setTimeout(function () {
-        finish(new Error('New minutes could not be loaded.'));
-      }, timeoutMs || 20000);
-      global.document.head.appendChild(script);
-    });
+  function cachedMinutes() {
+    try {
+      const cached = JSON.parse(global.localStorage.getItem(CACHE_KEY));
+      return Array.isArray(cached) && cached.length <= 1000 ? mergeMinutes([], cached) : [];
+    } catch (error) { return []; }
   }
 
   function init() {
     const container = global.document.getElementById('meetingMinutesList');
     const config = global.BPP_MINUTES_CONFIG;
-    if (!container || !config || !config.endpoint) return;
+    if (!container || !config || !config.feedUrl) return;
     const original = existingMinutes(container);
     const status = global.document.getElementById('minutesLoadStatus');
-    fetchMinutes(config.endpoint).then(function (payload) {
+    const cached = cachedMinutes();
+    if (cached.length) renderMinutes(container, mergeMinutes(original, cached));
+    fetchMinutes(config.feedUrl).then(function (payload) {
       if (payload.minutes.length) {
         renderMinutes(container, mergeMinutes(original, payload.minutes));
+      } else if (cached.length) {
+        renderMinutes(container, mergeMinutes(original, []));
       }
+      try { global.localStorage.setItem(CACHE_KEY, JSON.stringify(payload.minutes)); } catch (error) {}
       if (status) status.hidden = true;
     }).catch(function () {
       if (status) {
-        status.textContent = 'Newly uploaded minutes are temporarily unavailable. Previously posted minutes are shown above.';
+        status.textContent = 'The latest minutes could not be checked. Previously loaded minutes are shown above. Please try refreshing later.';
         status.hidden = false;
       }
     });
   }
 
-  const api = { isValidDate: isValidDate, safeDriveUrl: safeDriveUrl,
+  const api = { isValidDate: isValidDate, safeMinuteUrl: safeMinuteUrl, minuteFromPath: minuteFromPath,
     normalizeMinute: normalizeMinute, mergeMinutes: mergeMinutes,
     existingMinutes: existingMinutes, renderMinutes: renderMinutes,
-    endpointUrl: endpointUrl, fetchMinutes: fetchMinutes };
+    fetchMinutes: fetchMinutes };
   global.BPPMinutes = api;
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   if (global.document) {

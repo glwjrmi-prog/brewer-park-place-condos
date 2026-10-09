@@ -6,98 +6,81 @@
   const type = document.getElementById('meetingType');
   const name = document.getElementById('fileName');
   const copyName = document.getElementById('copyFileName');
-  const folder = document.getElementById('uploadFolder');
   const nameStatus = document.getElementById('nameStatus');
+  const pdfInput = document.getElementById('finishedPdf');
+  const savePdf = document.getElementById('saveNamedPdf');
+  const pdfStatus = document.getElementById('pdfStatus');
+  let approvedFile = null;
 
   function updateName() {
-    const valid = api.isValidDate(date.value);
+    const valid = api.isValidDate(date.value) && /^20\d{2}-/.test(date.value);
     name.value = valid ? date.value + ' - ' + type.value + '.pdf' : '';
     copyName.disabled = !valid;
-    const year = valid ? date.value.slice(0, 4) : String(new Date().getFullYear());
-    if (config.yearFolders[year]) {
-      folder.href = config.yearFolders[year];
-      folder.textContent = 'Open ' + year + ' Upload Folder';
-      nameStatus.textContent = '';
-    } else {
-      folder.href = config.folderUrl;
-      folder.textContent = 'Open All Year Folders';
-      nameStatus.textContent = 'Create a folder named ' + year + ' inside BPP Approved Board Minutes, then upload there.';
-    }
+    savePdf.disabled = !valid || !approvedFile;
+    nameStatus.textContent = '';
   }
   date.addEventListener('input', updateName);
   type.addEventListener('change', updateName);
   updateName();
 
-  async function copy(field, status) {
+  copyName.addEventListener('click', async function () {
     try {
-      await navigator.clipboard.writeText(field.value);
-      status.textContent = 'Copied.';
+      await navigator.clipboard.writeText(name.value);
+      nameStatus.textContent = 'Copied. Use this name when saving your PDF.';
     } catch (error) {
-      field.focus();
-      field.select();
-      status.textContent = 'The text is selected. Press Ctrl+C to copy it.';
+      name.focus();
+      name.select();
+      nameStatus.textContent = 'The file name is selected. Press Ctrl+C (Command+C on a Mac) to copy it.';
     }
-  }
-  copyName.addEventListener('click', function () { copy(name, nameStatus); });
+  });
 
-  const codeStatus = document.getElementById('codeStatus');
-  [['minutes-publisher/Code.gs', 'scriptCode', 'copyScript'],
-    ['minutes-publisher/appsscript.json', 'manifestCode', 'copyManifest']].forEach(function (entry) {
-    const field = document.getElementById(entry[1]);
-    const button = document.getElementById(entry[2]);
-    button.disabled = true;
-    fetch(entry[0]).then(function (response) {
-      if (!response.ok) throw new Error('Source is unavailable');
-      return response.text();
-    }).then(function (content) {
-      field.value = content;
-      button.disabled = false;
-    }).catch(function () {
-      field.value = '';
-      codeStatus.textContent = 'Use the download links to open the script and manifest.';
-    });
-    button.addEventListener('click', function () { copy(field, codeStatus); });
+  pdfInput.addEventListener('change', async function () {
+    const file = pdfInput.files[0];
+    approvedFile = null;
+    updateName();
+    pdfStatus.textContent = '';
+    if (!file) return;
+    if (!/\.pdf$/i.test(file.name) || file.size >= 25 * 1024 * 1024) {
+      pdfStatus.textContent = 'Choose a finished PDF smaller than 25 MiB.';
+      return;
+    }
+    try {
+      const signature = await file.slice(0, 5).text();
+      if (pdfInput.files[0] !== file) return;
+      if (signature !== '%PDF-') {
+        pdfStatus.textContent = 'This file is not a PDF. Save or download the minutes as a PDF first.';
+        return;
+      }
+      approvedFile = file;
+      updateName();
+      pdfStatus.textContent = name.value ? 'Ready to save a named copy.' : 'Choose the meeting date above, then save a named copy.';
+    } catch (error) {
+      pdfStatus.textContent = 'This PDF could not be read. You can name it manually and upload it with the button above.';
+    }
+  });
+
+  savePdf.addEventListener('click', function () {
+    if (!approvedFile || !name.value) return;
+    const url = URL.createObjectURL(approvedFile);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name.value;
+    link.hidden = true;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(function () { URL.revokeObjectURL(url); }, 30000);
+    pdfStatus.textContent = 'Download started: ' + name.value + '. Upload that copy using Upload Finished Minutes.';
   });
 
   const status = document.getElementById('connectionStatus');
-  if (config.endpoint) {
-    status.textContent = 'Checking the minutes upload connection…';
-    api.fetchMinutes(config.endpoint).then(function (payload) {
-      if (payload.folderPublic !== true) {
-        status.textContent = 'The publishing script is connected. Set the Approved Board Minutes folder to Anyone with the link → Viewer to finish.';
-      } else {
-        status.textContent = 'Automatic publishing is connected. Follow the three meeting steps below, then refresh the website after about a minute.';
-        status.classList.add('connected');
-        document.getElementById('oneTimeSetup').open = false;
-      }
-    }).catch(function () {
-      status.textContent = 'The upload connection is temporarily unavailable. Previously posted minutes remain on the website.';
-    });
-  }
-
-  const url = document.getElementById('webAppUrl');
-  const testButton = document.getElementById('testConnection');
-  const testStatus = document.getElementById('testStatus');
-  testButton.addEventListener('click', async function () {
-    if (!api.endpointUrl(url.value.trim())) {
-      testStatus.textContent = 'Paste the Google Web app URL ending in /exec.';
-      return;
+  api.fetchMinutes(config.feedUrl).then(function (payload) {
+    status.classList.add('connected');
+    status.textContent = 'Automatic publishing is ready. Follow the three meeting steps below.';
+    if (payload.skippedFiles) {
+      status.textContent += ' ' + payload.skippedFiles + ' uploaded PDF(s) are not listed; check their meeting-date names in View Uploaded Files.';
     }
-    testButton.disabled = true;
-    testStatus.textContent = 'Testing the publishing connection…';
-    try {
-      const payload = await api.fetchMinutes(url.value.trim());
-      if (payload.folderPublic !== true) {
-        testStatus.textContent = 'The script works. Set the Approved Board Minutes folder to Anyone with the link → Viewer, wait one minute, then test again.';
-      } else {
-        testStatus.textContent = 'Connection works. Send this Web app URL to Codex once to finish installation. ' +
-          payload.minutes.length + ' newly uploaded minute file(s) found.' +
-          (payload.skippedFiles ? ' ' + payload.skippedFiles + ' file(s) were skipped; check their name, file type, and viewing access.' : '');
-      }
-    } catch (error) {
-      testStatus.textContent = 'The connection did not respond. Check that the web app is deployed with access set to Anyone and that the URL ends in /exec.';
-    } finally {
-      testButton.disabled = false;
-    }
+  }).catch(function () {
+    status.textContent = 'The minutes listing could not be checked right now. You can still upload a finished PDF. Refresh the website later to confirm its link.';
   });
 })();
