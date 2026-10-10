@@ -4,7 +4,7 @@
     'July', 'August', 'September', 'October', 'November', 'December'];
   const SITE_ROOT = 'https://glwjrmi-prog.github.io/brewer-park-place-condos/';
   const FEED_URL = SITE_ROOT + 'minutes-feed.json';
-  const CACHE_KEY = 'bpp-published-minutes-v2';
+  const CACHE_KEY = 'bpp-published-minutes-v3';
 
   function isValidDate(value) {
     if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
@@ -30,7 +30,7 @@
     const date = match[1].split('-').map(Number);
     return {
       year: date[0], date: match[1],
-      title: MONTHS[date[1] - 1] + ' ' + date[2] + ', ' + date[0] + ' — ' + description,
+      title: MONTHS[date[1] - 1] + ' ' + date[0] + ' ' + description,
       url: SITE_ROOT + parts.slice(1).map(encodeURIComponent).join('/')
     };
   }

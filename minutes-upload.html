@@ -31,7 +31,7 @@
     @media print{header,footer,.actions{display:none}.upload-main{padding:0}.card{box-shadow:none;break-inside:avoid}}
   </style>
   <script defer src="minutes-config.js?v=2"></script>
-  <script defer src="minutes.js?v=2"></script>
+  <script defer src="minutes.js?v=3"></script>
   <script defer src="minutes-upload.js?v=2"></script>
 </head>
 <body>
@@ -48,13 +48,24 @@
     Upload approved PDFs to the website's minutes folder. The website organizes them by year.
   </div>
   <section class="card">
+    <h2>Start with the secretary’s template</h2>
+    <p>The template includes the BPP logo and sections for meeting details, old business, board reports, decisions, and action items.</p>
+    <p><a class="button-link" href="https://docs.google.com/document/d/12zCRSy0Twe3Bu-HBk4Td_LLI7vwrVFLm2dMinVm70x4/edit" target="_blank" rel="noopener">Open BPP Minutes Template</a></p>
+    <ol>
+      <li>In Google Docs, choose <strong>File → Make a copy</strong>. Name your copy for the meeting, such as <strong>September 2026 Board Meeting Minutes</strong>.</li>
+      <li>Replace the bracketed prompts, add more topic blocks or action rows as needed, and remove instructions and unused sections. If the minutes arrive in an email, paste the text into the matching sections of your copy.</li>
+      <li>After approval, choose <strong>File → Download → PDF Document</strong>. On a Chromebook, the PDF usually goes to <strong>Downloads</strong>. Follow the steps below to name and upload it.</li>
+    </ol>
+    <p class="note">Gordy can use Google Docs’ <strong>Share</strong> button to give the secretary access to the master template. Make a copy for each meeting so the master stays ready for next time.</p>
+  </section>
+  <section class="card">
     <h2>After each meeting</h2>
     <ol>
       <li><strong>Save the finished, approved minutes as a PDF.</strong> Use the clean formatting used for the existing minutes. In Word, choose <strong>File → Save As → PDF</strong>. In Google Docs, choose <strong>File → Download → PDF Document</strong>.</li>
       <li><strong>Name the PDF with the meeting date.</strong> Use the helper below, for example <code>2026-10-15 - Board Meeting Minutes.pdf</code>. Use the date the meeting took place.</li>
       <li><strong>Upload and save it.</strong> Click <strong>Upload Finished Minutes</strong> below. On GitHub, click <strong>choose your files</strong> and select the named PDF. Leave <strong>Commit directly to the main branch</strong> selected, then click <strong>Commit changes</strong> at the bottom.</li>
     </ol>
-    <p>The website adds the link under the correct year automatically. Allow up to 10 minutes, then refresh <a href="index.html#meeting-minutes">Board Meeting Minutes</a> to check it.</p>
+    <p>The website adds the link under the correct year automatically and shows the month and year, for example <strong>September 2026 Board Meeting Minutes</strong>. The full meeting date in the file name keeps the PDFs in order. Allow up to 10 minutes, then refresh <a href="index.html#meeting-minutes">Board Meeting Minutes</a> to check it.</p>
     <p class="note">The PDF keeps the formatting of the document you provide. Uploading does not edit or reformat the minutes.</p>
   </section>
   <section class="card">
