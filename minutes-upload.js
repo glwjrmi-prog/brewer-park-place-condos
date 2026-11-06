@@ -2,7 +2,7 @@
   'use strict';
   const config = window.BPP_MINUTES_CONFIG;
   const api = window.BPPMinutes;
-  const date = document.getElementById('meetingDate');
+  const month = document.getElementById('meetingMonth');
   const type = document.getElementById('meetingType');
   const name = document.getElementById('fileName');
   const copyName = document.getElementById('copyFileName');
@@ -13,13 +13,16 @@
   let approvedFile = null;
 
   function updateName() {
-    const valid = api.isValidDate(date.value) && /^20\d{2}-/.test(date.value);
-    name.value = valid ? date.value + ' - ' + type.value + '.pdf' : '';
+    const meetingDate = month.value + '-01';
+    const valid = api.isValidDate(meetingDate) && /^20\d{2}-/.test(meetingDate);
+    name.value = valid ? new Date(meetingDate + 'T00:00:00Z').toLocaleDateString('en-US', {
+      month: 'long', year: 'numeric', timeZone: 'UTC'
+    }) + '-' + type.value + '.pdf' : '';
     copyName.disabled = !valid;
     savePdf.disabled = !valid || !approvedFile;
     nameStatus.textContent = '';
   }
-  date.addEventListener('input', updateName);
+  month.addEventListener('input', updateName);
   type.addEventListener('change', updateName);
   updateName();
 
@@ -53,7 +56,7 @@
       }
       approvedFile = file;
       updateName();
-      pdfStatus.textContent = name.value ? 'Ready to save a named copy.' : 'Choose the meeting date above, then save a named copy.';
+      pdfStatus.textContent = name.value ? 'Ready to save a named copy.' : 'Choose the meeting month above, then save a named copy.';
     } catch (error) {
       pdfStatus.textContent = 'This PDF could not be read. You can name it manually and upload it with the button above.';
     }
@@ -78,7 +81,7 @@
     status.classList.add('connected');
     status.textContent = 'Automatic publishing is ready. Follow the three meeting steps below.';
     if (payload.skippedFiles) {
-      status.textContent += ' ' + payload.skippedFiles + ' uploaded PDF(s) are not listed; check their meeting-date names in View Uploaded Files.';
+      status.textContent += ' ' + payload.skippedFiles + ' uploaded PDF(s) are not listed; check their month and year names in View Uploaded Files.';
     }
   }).catch(function () {
     status.textContent = 'The minutes listing could not be checked right now. You can still upload a finished PDF. Refresh the website later to confirm its link.';

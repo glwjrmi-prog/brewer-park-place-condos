@@ -22,14 +22,30 @@
         (parts.length !== 3 && parts.length !== 4)) return null;
     const folderYear = parts.length === 4 ? parts[2] : null;
     if (folderYear !== null && !/^20\d{2}$/.test(folderYear)) return null;
-    const match = /^(20\d{2}-\d{2}-\d{2})\s+[-–—]\s+(.+)\.pdf$/i.exec(parts[parts.length - 1]);
-    if (!match || !isValidDate(match[1]) ||
-        (folderYear !== null && folderYear !== match[1].slice(0, 4))) return null;
-    const description = match[2].trim();
+    const filename = parts[parts.length - 1];
+    const dated = /^(20\d{2}-\d{2}-\d{2})\s+[-–—]\s+(.+)\.pdf$/i.exec(filename);
+    let meetingDate;
+    let description;
+    if (dated) {
+      meetingDate = dated[1];
+      description = dated[2].trim();
+    } else {
+      const monthly = /^([A-Za-z]+)\s+(20\d{2})(?:\s*[-–—]\s*|\s+)(.+)\.pdf$/i.exec(filename);
+      if (!monthly) return null;
+      const month = MONTHS.findIndex(function (name) {
+        return name.toLowerCase() === monthly[1].toLowerCase();
+      });
+      if (month < 0) return null;
+      // Month-only names use the first of the month for sorting, not display.
+      meetingDate = monthly[2] + '-' + String(month + 1).padStart(2, '0') + '-01';
+      description = monthly[3].trim();
+    }
+    if (!isValidDate(meetingDate) ||
+        (folderYear !== null && folderYear !== meetingDate.slice(0, 4))) return null;
     if (!description || description.length > 150 || /\bdraft\b/i.test(description)) return null;
-    const date = match[1].split('-').map(Number);
+    const date = meetingDate.split('-').map(Number);
     return {
-      year: date[0], date: match[1],
+      year: date[0], date: meetingDate,
       title: MONTHS[date[1] - 1] + ' ' + date[0] + ' ' + description,
       url: SITE_ROOT + parts.slice(1).map(encodeURIComponent).join('/')
     };
